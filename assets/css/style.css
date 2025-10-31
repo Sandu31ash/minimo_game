@@ -1,0 +1,49 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Stop scrolling */
+}
+
+/* Responsive Full Background */
+body {
+  background-image: url("../images/minimo_bg.png"); /* path from CSS file */
+  background-size: cover;       /* scale image to cover screen */
+  background-position: center;  /* center the image */
+  background-repeat: no-repeat; /* no tiling */
+  font-family: Arial, sans-serif;
+
+  /* center content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  text-shadow: 1px 1px 5px black;
+  background-attachment: fixed;
+}
+
+/* Make text responsive for all screen sizes */
+h1 {
+    font-size: 5vw;  /* scales with viewport width */
+}
+
+p {
+    font-size: 2.5vw;
+}
+
+/* Media queries for small screens */
+@media (max-width: 768px) {
+    h1 { font-size: 8vw; }
+    p { font-size: 4vw; }
+}
+
+@media (max-width: 425px) {
+    h1 { font-size: 10vw; }
+    p { font-size: 5vw; }
+}
+
+@media (max-width: 320px) {
+    h1 { font-size: 12vw; }
+    p { font-size: 6vw; }
+}
