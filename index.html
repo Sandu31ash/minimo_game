@@ -6,8 +6,22 @@
     <title>Minimo</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <h1>Welcome to Minimo!</h1>
-    
+<body class="bg-main">
+    <div id="mainPage" class="screen">
+        <h1 id="h1">Welcome to Minimo!</h1>
+        <button id="btnPlay">PLAY</button>
+    </div>
+    <div id="loginPage" class="screen" style="display: none;">
+        <button id="backBtn">Back</button>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button id="login">Login</button>
+    </div>
+    <div id="themePage" class="screen" style="display: none;">
+        <button id="backBtn">Back</button>
+        <button id="theme">Theme 1</button>
+    </div>
+
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
