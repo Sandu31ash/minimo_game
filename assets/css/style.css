@@ -26,6 +26,7 @@ body {
 /* Make text responsive for all screen sizes */
 h1 {
     font-size: 5vw;  /* scales with viewport width */
+    
 }
 
 p {
