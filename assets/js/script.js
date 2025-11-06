@@ -4,6 +4,7 @@ const themePage3 = document.getElementById('themePage3');
 const themePage2 = document.getElementById('themePage2');
 const themePage1 = document.getElementById('themePage1');
 const themePage = document.getElementById('themePage');
+const show = document.getElementById('showUsername');
 const loginPage = document.getElementById('loginPage');
 const mainPage = document.getElementById('mainPage')
 const btnPlay = document.getElementById('btnPlay');
@@ -60,8 +61,22 @@ login.addEventListener('click', () => {
 
   localStorage.setItem("username", username);
   localStorage.setItem("password", password);
+  // window.print(username);
+  // show.value(username);
+  // usernameField.addEventListener('input', showName);
+  showName(username);
 
 });
+
+function showName(username){
+
+  // const usernameField = document.getElementById('username');
+  // const username = usernameField.value;
+
+  const showUsername = document.getElementById('showUsername');
+  showUsername.textContent = username;
+
+}
 
 btnLogout.addEventListener('click', () => {
   loginPage.style.display = 'flex';
@@ -177,3 +192,7 @@ btnBackTh5.addEventListener('click', () => {
   themePage5.style.display = 'none';
   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
 });
+
+
+
+
