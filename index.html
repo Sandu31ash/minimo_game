@@ -8,18 +8,54 @@
 </head>
 <body class="bg-main">
     <div id="mainPage" class="screen">
-        <h1 id="h1">Welcome to Minimo!</h1>
-        <button id="btnPlay">PLAY</button>
+        <!-- <h1 id="h1">Welcome to Minimo!</h1> -->
+        <button id="btnPlay" class="btn">PLAY</button>
     </div>
-    <div id="loginPage" class="screen" style="display: none;">
-        <button id="backBtn">Back</button>
+    <!-- <div id="loginPage" class="screen" style="display: none;">
+        <button id="btnBack">Back</button>
         <input type="text" placeholder="Username">
         <input type="password" placeholder="Password">
         <button id="login">Login</button>
+    </div> -->
+    <div id="loginPage" class="screen" style="display: none;">
+    <div class="login-box">
+        <button id="btnBack" class="back-btn" class="btn">← Back</button>
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <p id="errorMsg" class="error-msg"></p>
+        <button id="login" class="login-btn" class="btn">Login</button>
     </div>
+</div>
+
     <div id="themePage" class="screen" style="display: none;">
-        <button id="backBtn">Back</button>
-        <button id="theme">Theme 1</button>
+        <p>Welcome, <span id="showUsername"></span>!</p>
+        <button id="btnLogout" class="btn">Logout</button>
+        <button id="btnTh1" class="btn">Theme 1</button>
+        <button id="btnTh2" class="btn">Theme 2</button>
+        <button id="btnTh3" class="btn">Theme 3</button>
+        <button id="btnTh4" class="btn">Theme 4</button>
+        <button id="btnTh5" class="btn">Theme 5</button>
+    </div>
+    <div id="themePage1" class="screen" style="display: none;">
+        <button id="btnBackTh1" class="btn">Back</button>
+        <button id="btnTimeTh1" class="btn">Time</button>
+    </div>
+    <div id="themePage2" class="screen" style="display: none;">
+        <button id="btnBackTh2" class="btn">Back</button>
+        <button id="btnTimeTh2" class="btn">Time</button>
+    </div>
+    <div id="themePage3" class="screen" style="display: none;">
+        <button id="btnBackTh3" class="btn">Back</button>
+        <button id="btnTimeTh3" class="btn">Time</button>
+    </div>
+    <div id="themePage4" class="screen" style="display: none;">
+        <button id="btnBackTh4" class="btn">Back</button>
+        <button id="btnTimeTh4" class="btn">Time</button>
+    </div>
+    <div id="themePage5" class="screen" style="display: none;">
+        <button id="btnBackTh5" class="btn">Back</button>
+        <button id="btnTimeTh5" class="btn">Time</button>
     </div>
 
     <script src="assets/js/script.js"></script>
