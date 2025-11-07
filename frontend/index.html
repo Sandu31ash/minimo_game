@@ -24,9 +24,23 @@
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
         <p id="errorMsg" class="error-msg"></p>
-        <button id="login" class="login-btn" class="btn">Login</button>
+        <button id="login" class="login-btn btn">Login</button>
+        <div id="regPageDiv">
+            <p id="regAsk">Don't have an account?</p>
+            <button id="btnRegPage">Register</button>
+        </div>
+        </div>
     </div>
-</div>
+
+    <div id="regPage" class="screen" style="display:none;">
+        <div class="reg-box">
+        <h2>Register</h2>
+        <input type="text" id="regUsername" placeholder="New Username">
+        <input type="password" id="regPassword" placeholder="New Password">
+        <p id="errorMsg" class="error-msg"></p>
+        <button id="regBtn">Register</button>
+        </div>
+    </div>
 
     <div id="themePage" class="screen" style="display: none;">
         <p>Bello, <span id="showUsername"></span>!</p>

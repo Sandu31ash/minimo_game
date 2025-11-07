@@ -1,16 +1,24 @@
+console.log("JS is running...");
 import EventBus from "./events.js";
 
 const btnPlay = document.getElementById('btnPlay');
 const btnBack = document.getElementById('btnBack');
+const btnBackTh1 = document.getElementById('btnBackTh1');
+const btnBackTh2 = document.getElementById('btnBackTh2');
+const btnBackTh3 = document.getElementById('btnBackTh3');
+const btnBackTh4 = document.getElementById('btnBackTh4');
+const btnBackTh5 = document.getElementById('btnBackTh5');
 const login = document.getElementById('login');
 const btnLogout = document.getElementById('btnLogout');
 const btnTh1 = document.getElementById('btnTh1');
 const btnTh2 = document.getElementById('btnTh2');
+const btnTh3 = document.getElementById('btnTh3');
 const usernameField = document.getElementById('username');
 const passwordField = document.getElementById('password');
 const errorMsg = document.getElementById('errorMsg');
+const btnRegPage = document.getElementById('btnRegPage')
 
-// ---- UI Events ----
+//UI Events
 
 btnPlay.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_LOGIN");
@@ -20,40 +28,52 @@ btnBack.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_MAIN");
 });
 
-login.addEventListener('click', () => {
-  
-  document.getElementById("login").addEventListener("click", async () => {
-  const username = document.querySelector("#loginPage input[type='text']").value;
-  const password = document.querySelector("#loginPage input[type='password']").value;
+btnRegPage.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_REG");
+});
 
-  const response = await fetch("http://localhost:3000/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
-  });
+login.addEventListener("click", async () => {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
 
-  const result = await response.json();
+  try {
+    const res = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
 
-  if (result.success) {
-    alert("✅ Login Successful");
-    // go to next screen later
-  } else {
-    alert("❌ Invalid username or password");
+    const data = await res.json();
+
+    if (res.ok) {
+      console.log("✅ Login successful");
+      loginPage.style.display = "none";
+      themePage.style.display = "grid";
+      errorMsg.textContent = "";
+    } else {
+      errorMsg.textContent = data.error;
+    }
+
+  } catch (err) {
+    errorMsg.textContent = "Network error. Backend not running.";
   }
 });
 
+// document.getElementById("registerBtn").addEventListener("click", async () => {
+//   const username = document.getElementById("regUsername").value;
+//   const password = document.getElementById("regPassword").value;
 
-  // const username = usernameField.value.trim();
-  // const password = passwordField.value.trim();
+//   const res = await fetch("http://localhost:3000/api/register", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ username, password })
+//   });
 
-  // if (!username || !password) {
-  //   errorMsg.textContent = "Please fill all fields";
-  //   return;
-  // }
+//   const data = await res.json();
+//   alert(data.message || data.error);
+// });
 
-  // localStorage.setItem("username", username);
-  // EventBus.emit("NAVIGATE_THEME_MENU", username);
-});
 
 btnLogout.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_LOGIN");
@@ -67,8 +87,37 @@ btnTh2.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_2");
 });
 
+btnTh3.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_3");
+});
 
+btnTh4.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_4");
+});
 
+btnTh5.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_5");
+});
+
+btnBackTh1.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+});
+
+btnBackTh2.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+});
+
+btnBackTh3.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+});
+
+btnBackTh4.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+});
+
+btnBackTh5.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+});
 
 // const themePage5 = document.getElementById('themePage5');
 // const themePage4 = document.getElementById('themePage4');

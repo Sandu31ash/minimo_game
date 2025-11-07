@@ -5,6 +5,9 @@ const loginPage = document.getElementById('loginPage');
 const themePage = document.getElementById('themePage');
 const themePage1 = document.getElementById('themePage1');
 const themePage2 = document.getElementById('themePage2');
+const themePage3 = document.getElementById('themePage3');
+const themePage4 = document.getElementById('themePage4');
+const themePage5 = document.getElementById('themePage5');
 
 function hideAll() {
   mainPage.style.display = 'none';
@@ -12,6 +15,9 @@ function hideAll() {
   themePage.style.display = 'none';
   themePage1.style.display = 'none';
   themePage2.style.display = 'none';
+  themePage3.style.display = 'none';
+  themePage4.style.display = 'none';
+  themePage5.style.display = 'none';
 }
 
 EventBus.on("NAVIGATE_MAIN", () => {
@@ -23,6 +29,12 @@ EventBus.on("NAVIGATE_MAIN", () => {
 EventBus.on("NAVIGATE_LOGIN", () => {
   hideAll();
   loginPage.style.display = 'flex';
+  document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
+});
+
+EventBus.on("NAVIGATE_REG", () => {
+  hideAll();
+  regPage.style.display = 'flex';
   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
 });
 
@@ -44,3 +56,28 @@ EventBus.on("NAVIGATE_THEME_2", () => {
   themePage2.style.display = 'block';
   document.body.style.backgroundImage = 'url("assets/images/theme_carrot_bg.png")';
 });
+
+EventBus.on("NAVIGATE_THEME_3", () => {
+  hideAll();
+  themePage3.style.display = 'block';
+  document.body.style.backgroundImage = 'url("assets/images/theme_acorn_bg.png")';
+});
+
+EventBus.on("NAVIGATE_THEME_4", () => {
+  hideAll();
+  themePage4.style.display = 'block';
+  document.body.style.backgroundImage = 'url("assets/images/theme_clover_bg.png")';
+});
+
+EventBus.on("NAVIGATE_THEME_5", () => {
+  hideAll();
+  themePage5.style.display = 'block';
+  document.body.style.backgroundImage = 'url("assets/images/theme_pawpsicle_bg.png")';
+});
+
+// EventBus.on("NAVIGATE_THEME_PAGE", (username) => {
+//   hideAll();
+//   themePage.style.display = 'grid';
+//   document.getElementById("showUsername").textContent = username;
+//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
+// });
