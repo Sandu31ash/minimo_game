@@ -3,6 +3,7 @@ import EventBus from "./events.js";
 
 const btnPlay = document.getElementById('btnPlay');
 const btnBack = document.getElementById('btnBack');
+const btnBackReg = document.getElementById('btnBackReg');
 const btnBackTh1 = document.getElementById('btnBackTh1');
 const btnBackTh2 = document.getElementById('btnBackTh2');
 const btnBackTh3 = document.getElementById('btnBackTh3');
@@ -17,6 +18,10 @@ const usernameField = document.getElementById('username');
 const passwordField = document.getElementById('password');
 const errorMsg = document.getElementById('errorMsg');
 const btnRegPage = document.getElementById('btnRegPage')
+const regBtn = document.getElementById('regBtn')
+const errorMsgReg = document.getElementById('errorMsgReg');
+const regUsername = document.getElementById('regUsername');
+const btnLoginPage = document.getElementById('btnLoginPage');
 
 //UI Events
 
@@ -28,14 +33,27 @@ btnBack.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_MAIN");
 });
 
+btnBackReg.addEventListener('click', () => {
+  EventBus.emit("NAVIGATE_MAIN");
+});
+
 btnRegPage.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_REG");
+});
+
+btnLoginPage.addEventListener('click', () =>{
+  EventBus.emit("NAVIGATE_LOGIN");
 });
 
 login.addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
   const errorMsg = document.getElementById("errorMsg");
+
+  if (!username || !password) {
+    errorMsg.textContent = "Username and password cannot be empty.";
+    return;
+  }
 
   try {
     const res = await fetch("http://localhost:3000/api/login", {
@@ -47,10 +65,12 @@ login.addEventListener("click", async () => {
     const data = await res.json();
 
     if (res.ok) {
-      console.log("✅ Login successful");
+      console.log("Login successful");
       loginPage.style.display = "none";
       themePage.style.display = "grid";
       errorMsg.textContent = "";
+      showName(username);
+      // clearFields();
     } else {
       errorMsg.textContent = data.error;
     }
@@ -59,6 +79,49 @@ login.addEventListener("click", async () => {
     errorMsg.textContent = "Network error. Backend not running.";
   }
 });
+
+function showName(username){
+
+  // const usernameField = document.getElementById('username');
+  // const username = usernameField.value;
+
+  const showUsername = document.getElementById('showUsername');
+  showUsername.textContent = username;
+
+}
+
+regBtn.addEventListener("click", async () => {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const errorMsgReg = document.getElementById("errorMsgReg");
+
+  if (!username || !password) {
+    errorMsgReg.textContent = "Username and password cannot be empty.";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3000/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      errorMsgReg.style.color = "green";
+      errorMsgReg.textContent = "Registration successful! You can login now.";
+    } else {
+      errorMsgReg.style.color = "red";
+      errorMsgReg.textContent = data.error;
+    }
+
+  } catch (err) {
+    errorMsgReg.textContent = "Network error. Backend not running.";
+  }
+});
+
 
 // document.getElementById("registerBtn").addEventListener("click", async () => {
 //   const username = document.getElementById("regUsername").value;

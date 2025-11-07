@@ -2,7 +2,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* Stop scrolling */
+  /* overflow: hidden; */
 }
 
 body {
@@ -44,23 +44,200 @@ body {
   align-items: center;
 }
 
-
+/* ////////////////////////// Theme Page ////////////////////////// */
+/* 
 #themePage {
-  display: none;
   display: grid;
-  flex-direction: column;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2vw;
+  padding: 2vw;
+  justify-items: center;
   align-items: center;
 }
 
-#btnTh1{
-  background-color: yellow;
-  color: black;
+
+.divTh {
+  background-color: #fdfdbc;
+  border-radius: 12px;
+  padding: 3vw;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
 }
 
-html, body{
-    overflow: auto;
+.divTh:hover {
+  transform: scale(1.05);
 }
+
+.btnTheme {
+    width: 12vw;
+    height: 5vw;
+    background-color: rgb(252, 245, 108);
+    color: #333;
+    font-size: 1.5vw;
+    font-weight: bold;
+
+    padding: 1vw 1.5vw; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease; 
+    background-color: rgb(240, 230, 80);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btnTheme:hover {
+    background-color: rgb(255, 255, 159);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btnTheme:active {
+    transform: translateY(1px); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+#btnTh2{
+  background-color: rgb(253, 185, 25);
+}
+
+#btnTh3{
+  background-color: rgb(169, 130, 92);
+}
+
+#btnTh4{
+  background-color: rgb(84, 255, 82);
+}
+
+#btnTh5{
+  background-color: rgb(255, 88, 88);
+} */
+
+#themePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;      
+  height: 100vh;
+  /* overflow: hidden;      */
+}
+
+/* Top Bar */
+.themeTopBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  font-size: 1.3vw;
+  cursor: pointer;
+  margin-top: 1vw;
+  margin-left: 18vw;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 18vw;
+  margin-top: 6vh;
+}
+
+.userAvatar {
+  width: 5vw;
+  border-radius: 50%;
+  /* margin-right: 10vw; */
+}
+
+.themeHeading {
+  margin-top: -5vw;  
+  font-size: 1.7vw;   
+  letter-spacing: 0.15vw;
+  margin-left: 20vw;
+}
+
+.themeSub {
+  margin-top: -12vw;
+  margin-bottom: 1vw;
+  font-size: 1.5vw;
+  margin-left: 20vw;
+}
+
+.themeGrid {
+  width: 45vw;
+  height: 26vh;       
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1.6vw;
+
+  /* Remove old manual positioning */
+  /* position: relative; */
+  top: 50vw;
+  margin-left: 0;
+
+  /* Center the grid */
+  margin: 0 auto;
+}
+
+
+/* Cards */
+.themeCard {
+    /* margin: 0; */
+  background-color: #fff3c9;
+  border-radius: 20px;
+  padding: 1.4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform .25s ease;
+}
+
+.themeCard:hover {
+  transform: scale(1.05);
+}
+
+/* Big card spans 2 rows */
+.themeCard.big {
+  grid-row: span 2;
+}
+
+/* Images */
+.themeImg {
+  width: 7vw;
+}
+
+.bigImg {
+  width: 13vw;
+}
+
+/* Buttons */
+.btnTheme {
+  margin-top: 1vw;
+  background-color: transparent;
+  border: none;
+  font-size: 1.4vw;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bigBtn {
+  font-size: 1.8vw;
+}
+
+
+/* //////////////////////////////////////////////////////////// */
+
+/* html, body{
+    overflow: auto;
+} */
 
 .screen {
   width: 100%;
@@ -69,12 +246,12 @@ html, body{
 }
 
 h1 {
-    font-size: 5vw;
+    font-size: 2vw;
     
 }
 
 p {
-    font-size: 2vw;
+    font-size: 1vw;
 }
 
 #btnPlay{
@@ -101,13 +278,13 @@ p {
     opacity: 0.55;
 }
 
-.screen {
+/* .screen {
     width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .btn:hover{
   opacity: 0.55;
@@ -128,9 +305,9 @@ p {
 }
 
 .login-box h2 {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     color: #ffffff;
-    font-size: 3.5vw;
+    font-size: 2vw;
 }
 
 .login-box input {
@@ -144,9 +321,11 @@ p {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: #ffffff;
+    background: #ffe656;
     cursor: pointer;
     font-weight: bold;
+    width: 15vw;
+    align-self: center;
 }
 
 .login-btn:hover {
@@ -178,7 +357,7 @@ p {
 }
 
 #regAsk{
-    font-size: 1.8vw;
+    font-size: 0.9vw;
     color: black;
 }
 
@@ -219,9 +398,9 @@ p {
 }
 
 .reg-box h2 {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     color: #ffffff;
-    font-size: 3.5vw;
+    font-size: 2vw;
 }
 
 .reg-box input {
@@ -235,9 +414,11 @@ p {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: #ffffff;
+    background: #ffe656;
     cursor: pointer;
     font-weight: bold;
+    width: 15vw;
+    align-self: center;
 }
 
 #regBtn:hover {
@@ -248,7 +429,7 @@ p {
 /* //////////////////////////////////////////// */
 
 
-#regPageDiv{
+#loginPageDiv{
     /* align-items: grid; */
     /* align-content:; */
     display: flex;
@@ -257,12 +438,12 @@ p {
     padding: 5px;
 }
 
-#regAsk{
-    font-size: 1.8vw;
+#loginAsk{
+    font-size: 1vw;
     color: black;
 }
 
-#btnRegPage{
+#btnLoginPage{
     background-color: transparent;
     border: transparent;
     color: black;
@@ -270,7 +451,7 @@ p {
     padding-left: 31px;
 }
 
-#btnRegPage:hover{
+#btnLoginPage:hover{
     color: rgb(0, 0, 0);
     font-weight: bolder;
     text-shadow: 1px 1px 5px #000000;
@@ -280,8 +461,99 @@ p {
     transition: all 0.4s ease;
 }
 
+.topics{
+    font-size: 1vw;
+}
+
+.btnBackInTh{
+    position: relative;
+    margin-left: 13.5vw;
+    margin-top: 3.5vw;
+    width: 6vw;
+    height: 3vw;
+    opacity: 0;
+    /* padding: 1vw; */
+}
+
+.btnBackInTh:hover{
+    position: relative;
+    margin-left: 13.5vw;
+    margin-top: 3.5vw;
+    width: 6vw;
+    height: 3vw;
+    opacity: 0;
+}
 
 
+/* ////////////////////////////////////////////////// */
+
+/* 
+#themePage {
+  background-color: #fff7a0;
+  height: 100vh;
+  padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.logoutBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  font-size: 1.2vw;
+  cursor: pointer;
+  margin-bottom: 1vw;
+}
+
+.themeContainer {
+  display: grid;
+  padding: 5vw;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2vw;
+  width: 80%;
+  margin-top: 2vw;
+}
+
+.themeCard {
+  background-color: #fff7c9;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.themeCard:hover {
+  transform: scale(1.05);
+}
+
+.themeCard.big {
+  grid-row: span 2;
+}
+
+.themeImg {
+  width: 10vw;
+}
+
+.themeImg.small {
+  width: 7vw;
+}
+
+.themeLabel {
+  margin-top: 1vw;
+  font-size: 1.7vw;
+  font-weight: bold;
+  letter-spacing: 0.2vw;
+} */
+
+/* ///////////////////////////////////////////////// */
 
 
 /* Media queries for small screens */

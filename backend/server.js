@@ -65,6 +65,30 @@ app.post("/api/login", (req, res) => {
 
 app.listen(3000, () => console.log("✅ Server listening on 3000"));
 
+app.post("/api/register", (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and password required" });
+  }
+
+  // Check if user already exists
+  db.query("SELECT * FROM users WHERE username = ?", [username], (err, result) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+
+    if (result.length > 0) {
+      return res.status(400).json({ error: "Username already taken" });
+    }
+
+    // Insert new user
+    db.query("INSERT INTO users (username, password) VALUES (?, ?)", [username, password], (err, result) => {
+      if (err) return res.status(500).json({ error: "Failed to register user" });
+
+      return res.json({ message: "Registration successful" });
+    });
+  });
+});
+
 
 
 // require('dotenv').config();
