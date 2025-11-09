@@ -3,6 +3,8 @@ const express = require("express");
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+// const fetch = require("node-fetch");
+const axios = require("axios");
 
 // const cors = require("cors");
 // app.use(cors());
@@ -11,6 +13,10 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+//base URL for banana API
+// const MINIMO_API = "http://marcconrad.com/uob";
+const MINIMO_API = "http://marcconrad.com/uob/";
 
 //Create MySQL Connection
 const db = mysql.createConnection({
@@ -23,9 +29,9 @@ const db = mysql.createConnection({
 //Connect to DB
 db.connect((err) => {
   if (err) {
-    console.log("❌ Database Connection Failed:", err);
+    console.log("Database Connection Failed:", err);
   } else {
-    console.log("✅ Connected to MySQL Database");
+    console.log("Connected to MySQL Database");
   }
 });
 
@@ -50,7 +56,9 @@ app.post("/api/register", async (req, res) => {
 
 //Login API
 app.post("/api/login", (req, res) => {
+
   const { username, password } = req.body;
+  
   db.query("SELECT * FROM users WHERE username = ?", [username], async (err, results) => {
     if (err || results.length === 0) return res.status(400).json({ error: "Invalid username" });
 
@@ -61,33 +69,108 @@ app.post("/api/login", (req, res) => {
 
     res.json({ message: "Login successful" });
   });
+
 });
 
-app.listen(3000, () => console.log("✅ Server listening on 3000"));
+// app.get("/api/banana", async (req, res) => {
+  
+//   // const { out = 'csv' } = req.query;
+//   const url = `${MINIMO_API}/banana/api.php?out=csv`;
+//   // const url = `http://marcconrad.com/uob/banana/api.php?out=csv`;
+  
+//   const resp = await fetch(url);
 
-app.post("/api/register", (req, res) => {
-  const { username, password } = req.body;
+//   console.log(resp.text);
+// })
 
-  if (!username || !password) {
-    return res.status(400).json({ error: "Username and password required" });
-  }
 
-  // Check if user already exists
-  db.query("SELECT * FROM users WHERE username = ?", [username], (err, result) => {
-    if (err) return res.status(500).json({ error: "Database error" });
+app.get("/api/banana", async (req, res) => {
 
-    if (result.length > 0) {
-      return res.status(400).json({ error: "Username already taken" });
+  // console.log("api banana is running!!!!!");
+
+    const { out = 'csv' } = req.query;
+    const url = `${MINIMO_API}/banana/api.php?out=${out}`;
+
+    // const resp = await fetch(url);
+    const resp = await axios.get(url);
+    const data = await resp.data;
+
+    let image = "";
+    let answer = "";
+
+    if (out === "json") {
+      // If the API returns JSON
+      image = data.question;
+      answer = data.solution;
+    } else {
+      // If the API returns CSV or plain text (e.g., "image_url,answer")
+      const [img, ans] = data.split(",");
+      image = img.trim();
+      answer = ans.trim();
     }
 
-    // Insert new user
-    db.query("INSERT INTO users (username, password) VALUES (?, ?)", [username, password], (err, result) => {
-      if (err) return res.status(500).json({ error: "Failed to register user" });
-
-      return res.json({ message: "Registration successful" });
+    // Send structured response
+    res.json({
+      image,
+      answer,
     });
-  });
 });
+
+app.listen(3000, () => console.log("Server listening on 3000"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.post("/api/register", (req, res) => {
+//   const { username, password } = req.body;
+
+//   if (!username || !password) {
+//     return res.status(400).json({ error: "Username and password required" });
+//   }
+
+//   // Check if user already exists
+//   db.query("SELECT * FROM users WHERE username = ?", [username], (err, result) => {
+//     if (err) return res.status(500).json({ error: "Database error" });
+
+//     if (result.length > 0) {
+//       return res.status(400).json({ error: "Username already taken" });
+//     }
+
+//     // Insert new user
+//     db.query("INSERT INTO users (username, password) VALUES (?, ?)", [username, password], (err, result) => {
+//       if (err) return res.status(500).json({ error: "Failed to register user" });
+
+//       return res.json({ message: "Registration successful" });
+//     });
+//   });
+// });
 
 
 
@@ -214,4 +297,4 @@ app.post("/api/register", (req, res) => {
 //   });
 // });
 
-// app.listen(3000, () => console.log("✅ Server running on http://localhost:3000"));
+// app.listen(3000, () => console.log("Server running on http://localhost:3000"));

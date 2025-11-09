@@ -23,6 +23,8 @@ const errorMsgReg = document.getElementById('errorMsgReg');
 const regUsername = document.getElementById('regUsername');
 const btnLoginPage = document.getElementById('btnLoginPage');
 
+const BASE_URL = "http://localhost:3000/api/";
+
 //UI Events
 
 btnPlay.addEventListener('click', () => {
@@ -56,7 +58,7 @@ login.addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/login", {
+    const res = await fetch(`${BASE_URL}login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
@@ -91,12 +93,12 @@ function showName(username){
 }
 
 regBtn.addEventListener("click", async () => {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const username = document.getElementById("regUsername").value.trim();
+  const password = document.getElementById("regPassword").value.trim();
   const errorMsgReg = document.getElementById("errorMsgReg");
 
   if (!username || !password) {
-    errorMsgReg.textContent = "Username and password cannot be empty.";
+    errorMsgReg.textContent = "Username and password cannot be empty!";
     return;
   }
 
@@ -142,8 +144,33 @@ btnLogout.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_LOGIN");
 });
 
-btnTh1.addEventListener('click', () => {
+btnTh1.addEventListener('click', async () => {
+  
   EventBus.emit("NAVIGATE_THEME_1");
+
+   try {
+    const res = await fetch("http://localhost:3000/api/banana", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const img = data.image;
+      const ans = data.answer;
+
+      localStorage.setItem("bananaAnswer", ans);
+
+      // const correctAnswer = localStorage.getItem("bananaAnswer"); //set to the event listener of the input
+
+      document.getElementById("bananaImg").src = img;
+    }
+
+  } catch (err) {
+    errorMsgReg.textContent = "Network error. Backend not running.";
+  }
+
 });
 
 btnTh2.addEventListener('click', () => {
