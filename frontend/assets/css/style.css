@@ -558,14 +558,14 @@ p {
 }
 
 .loader {
-  width: 7vw;
-  height: 7vw;
+  width: 7.1vw;
+  height: 7.1vw;
   border-radius: 50%;
   border: 5px solid transparent;
   border-top: 5px solid #ffdd00;
   border-left: 5px solid #ffdd00;
   animation: spin 0.9s ease-in-out infinite;
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
   top: 58%;
   left: 58%;
@@ -573,7 +573,6 @@ p {
   box-shadow: 0 0 18px rgba(255, 221, 0, 0.6);
 }
 
-/* Smooth Spin Animation */
 @keyframes spin {
   0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
   50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.05); }
