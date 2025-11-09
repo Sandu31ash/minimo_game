@@ -216,7 +216,19 @@
     <div id="themePage1" class="screen" style="display: none;">
         <button id="btnBackTh1" class="btn btnBackInTh">Back</button>
         <button id="btnTimeTh1" class="btn">Time</button>
-        <img id="bananaImg" src="" alt="Banana Puzzle" width="300" />
+        <!-- <div class="banana-wrapper">
+          <img id="bananaImg" src="" alt="banana image">
+          <div id="bananaLoader" class="loader"></div>
+        </div> -->
+
+        <img id="bananaImg" src="" alt="Banana Puzzle" />
+        <div id="bananaLoader" class="loader"></div>
+        <div id="ansDiv">
+          <span id="ansTopic">Answer :</span>
+          <input id="bananaInput" type="number" min="0" max="9">
+          <span id="result">Find Banana!</span>
+          <button id="playAgain" style="display: none;">Play Again?</button>
+        </div>
     </div>
     <div id="themePage2" class="screen" style="display: none;">
         <button id="btnBackTh2" class="btn btnBackInTh">Back</button>

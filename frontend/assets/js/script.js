@@ -22,6 +22,9 @@ const regBtn = document.getElementById('regBtn')
 const errorMsgReg = document.getElementById('errorMsgReg');
 const regUsername = document.getElementById('regUsername');
 const btnLoginPage = document.getElementById('btnLoginPage');
+const bananaInput = document.getElementById('bananaInput');
+const result = document.getElementById('result');
+const playAgain = document.getElementById('playAgain');
 
 const BASE_URL = "http://localhost:3000/api/";
 
@@ -145,10 +148,15 @@ btnLogout.addEventListener('click', () => {
 });
 
 btnTh1.addEventListener('click', async () => {
-  
   EventBus.emit("NAVIGATE_THEME_1");
 
-   try {
+  const loader = document.querySelector('.loader'); // your loader element
+  const bananaImg = document.getElementById("bananaImg");
+
+  // Show loader
+  loader.style.display = "block";
+
+  try {
     const res = await fetch("http://localhost:3000/api/banana", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -162,16 +170,25 @@ btnTh1.addEventListener('click', async () => {
 
       localStorage.setItem("bananaAnswer", ans);
 
-      // const correctAnswer = localStorage.getItem("bananaAnswer"); //set to the event listener of the input
+      const correctAnswer = localStorage.getItem("bananaAnswer");
 
-      document.getElementById("bananaImg").src = img;
+      // Wait until the image is fully loaded before hiding loader
+      bananaImg.onload = () => {
+        loader.style.display = "none";
+      };
+
+      bananaImg.src = img;
+    } else {
+      loader.style.display = "none";
+      console.error("Failed to fetch image");
     }
 
   } catch (err) {
+    loader.style.display = "none";
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
-
 });
+
 
 btnTh2.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_2");
@@ -208,6 +225,109 @@ btnBackTh4.addEventListener('click', () => {
 btnBackTh5.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const bananaInput = document.getElementById("bananaInput");
+  const result = document.getElementById("result");
+
+  bananaInput.addEventListener("input", () => {
+
+    // Remove anything not a number
+    bananaInput.value = bananaInput.value.replace(/[^0-9]/g, "");
+
+    // Convert value to number
+    let value = parseInt(bananaInput.value, 10);
+
+    // If invalid or empty, clear message and stop
+    if (isNaN(value)) {
+      result.textContent = "";
+      return;
+    }
+
+    const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
+
+    // If value exceeds max (9), reset to 9 (or do what you prefer)
+    if (value > 9) {
+      bananaInput.value = 9;
+      result.textContent = "Max value is 9";
+    } else {
+      if(value==correctAnswer){
+        result.textContent = "You won!";
+        playAgain.style.display = "block";
+      }else{
+        result.textContent = "Try Again!";
+        playAgain.style.display = "none";
+      }
+    }
+  });
+});
+
+playAgain.addEventListener('click', async () => {
+
+  const loader = document.getElementById("bananaLoader");
+  const image = document.getElementById("bananaImg");
+
+  // Show loader & hide image temporarily
+  loader.style.display = "block";
+  image.style.opacity = "0";
+
+  try {
+    const res = await fetch("http://localhost:3000/api/banana");
+    const data = await res.json();
+
+    if (res.ok) {
+      const img = data.image;
+      const ans = data.answer;
+
+      localStorage.setItem("bananaAnswer", ans);
+
+      // Load image fully before showing it
+      image.onload = () => {
+        loader.style.display = "none";
+        image.style.opacity = "1";
+      };
+
+      image.src = img;
+      playAgain.style.display = "none";
+      result.textContent = "Find Banana!";
+      bananaInput.value = "";
+    }
+
+  } catch (err) {
+    errorMsgReg.textContent = "Network error. Backend not running.";
+    loader.style.display = "none";
+  }
+});
+
+
+
+
+// bananaInput.addEventListener("input", () => {
+  
+//   bananaInput.value = bananaInput.value.replace(/[^0-9]/g, "");
+
+//   if(parseInt(bananaInput.value)>9){
+//     result.value = "Invalid input!";
+//   }
+
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const themePage5 = document.getElementById('themePage5');
 // const themePage4 = document.getElementById('themePage4');

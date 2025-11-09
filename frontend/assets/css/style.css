@@ -471,7 +471,7 @@ p {
   border: none;
   color: transparent;
 
-  position: relative;
+  position: absolute;
   margin-left: 13.5vw;
   margin-top: 3.5vw;
   width: 6vw;
@@ -489,6 +489,97 @@ p {
     height: 3vw;
     opacity: 0;
 }
+
+#bananaImg{
+  width: 45%;
+  position: absolute;
+  margin: auto;
+  top: 20%;
+  bottom: 0;
+  left: 15%;
+  right: 0;
+}
+
+#ansDiv{
+  background-color: #F8DD5A;
+  width: 27%;
+  height: 10%;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 70%;
+  left: 0;
+  right: 12%;
+  border-radius: 1vw;
+  align-items: center;
+}
+
+#bananaInput{
+  width: 10%;
+  height: 50%;
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  font-size: 2vw;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: #d2c700;
+}
+
+#ansTopic{
+  position: absolute;
+  top: 28%;
+  left: 7%;
+  font-size: 1.5vw;
+}
+
+#result{
+  position: absolute;
+  top: 24%;
+  left: 48%;
+  font-size: 2vw;
+}
+
+#playAgain{
+  background-color:#ffffff;
+  position: relative;
+  left: 81.5%;
+  top: 25%;
+  width: 4.5vw;
+  border: none;
+  border-radius: 0.7vw;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1vw;
+}
+
+#playAgain:hover{
+  background-color: #fff700;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255,255,255,0.9);
+}
+
+.loader {
+  width: 7vw;
+  height: 7vw;
+  border-radius: 50%;
+  border: 5px solid transparent;
+  border-top: 5px solid #ffdd00;
+  border-left: 5px solid #ffdd00;
+  animation: spin 0.9s ease-in-out infinite;
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 58%;
+  left: 58%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 18px rgba(255, 221, 0, 0.6);
+}
+
+/* Smooth Spin Animation */
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.05); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+}
+
 
 
 /* ////////////////////////////////////////////////// */
