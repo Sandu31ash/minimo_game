@@ -500,6 +500,51 @@ p {
   right: 0;
 }
 
+.themeTopBar{
+  position: absolute;
+  left: 2%;
+  top: 12%;
+  /* gap: 0; */
+}
+
+.themeHeading{
+  position: absolute;
+  margin: 0;
+  left: 20.5%;
+  top: 180%;
+  /* right: 77%; */
+}
+
+.themeSub{
+  position: absolute;
+  margin: 0;
+  left: 20.5%;
+  top: 280%;
+}
+
+.userInfo{
+  position: absolute;
+  left: 70%;
+  top: -50%;
+}
+
+#showUsername{
+  position: absolute;
+  font-size: 1.4vw;
+  top: 120%;
+}
+
+.themeGrid{
+  position: relative;
+  top: 0;
+  /* width: 20%; */
+  /* height: 20%; */
+}
+
+.themeCard{
+  /* height: 50%; */
+}
+
 #ansDiv{
   background-color: #F8DD5A;
   width: 27%;
