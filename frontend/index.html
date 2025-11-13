@@ -36,6 +36,7 @@
         <div class="reg-box">
         <button id="btnBackReg" class="back-btn btn">← Back</button>
         <h2>Register</h2>
+        <img src="assets/images/avator.png" alt="" id="avatorImg">
         <input type="text" id="regUsername" placeholder="New Username">
         <input type="password" id="regPassword" placeholder="New Password">
         <p id="errorMsgReg" class="error-msg"></p>
@@ -106,27 +107,27 @@
   <div class="themeGrid">
 
     <div class="themeCard big" id="btnTh1">
-      <img src="assets/images/banana_theme_card.png" class="themeImg bigImg">
+      <img src="assets/images/banana_theme_card.png" class="themeImg bigImg" id="themeImg1">
       <button class="btnTheme bigBtn">BANANA</button>
     </div>
 
     <div class="themeCard" id="btnTh2">
-      <img src="assets/images/carrot_theme_card.png" class="themeImg">
+      <img src="assets/images/carrot_theme_card.png" class="themeImg" id="themeImg2">
       <button class="btnTheme">CARROT</button>
     </div>
 
     <div class="themeCard" id="btnTh3">
-      <img src="assets/images/acorn_theme_card.png" class="themeImg">
+      <img src="assets/images/acorn_theme_card.png" class="themeImg" id="themeImg3">
       <button class="btnTheme">ACORN</button>
     </div>
 
     <div class="themeCard" id="btnTh4">
-      <img src="assets/images/clover_theme_card.png" class="themeImg">
+      <img src="assets/images/clover_theme_card.png" class="themeImg" id="themeImg4">
       <button class="btnTheme">CLOVER</button>
     </div>
 
     <div class="themeCard" id="btnTh5">
-      <img src="assets/images/pawpsicle_theme_card.png" class="themeImg">
+      <img src="assets/images/pawpsicle_theme_card.png" class="themeImg" id="themeImg5">
       <button class="btnTheme">PAWPSICLE</button>
     </div>
 
@@ -216,16 +217,29 @@
     <div id="themePage1" class="screen" style="display: none;">
         <button id="btnBackTh1" class="btn btnBackInTh">Back</button>
         <button id="btnTimeTh1" class="btn">Time</button>
-        <!-- <div class="banana-wrapper">
-          <img id="bananaImg" src="" alt="banana image">
-          <div id="bananaLoader" class="loader"></div>
-        </div> -->
 
         <img id="bananaImg" src="" alt="Banana Puzzle" />
         <div id="bananaLoader" class="loader"></div>
-        <div id="ansDiv">
+        <!-- <div id="ansDiv">
           <span id="ansTopic">Answer :</span>
           <input id="bananaInput" type="number" min="0" max="9">
+          <span id="result">Find Banana!</span>
+          <button id="playAgain" style="display: none;">Play Again?</button>
+        </div> -->
+        <div id="ansDiv">
+          <span id="ansTopic">Answer :</span>
+          <div id="divAnsBtn">
+            <button id="ans0" class="ansBtn">0</button>
+            <button id="ans1" class="ansBtn">1</button>
+            <button id="ans2" class="ansBtn">2</button>
+            <button id="ans3" class="ansBtn">3</button>
+            <button id="ans4" class="ansBtn">4</button>
+            <button id="ans5" class="ansBtn">5</button>
+            <button id="ans6" class="ansBtn">6</button>
+            <button id="ans7" class="ansBtn">7</button>
+            <button id="ans8" class="ansBtn">8</button>
+            <button id="ans9" class="ansBtn">9</button>
+          </div>
           <span id="result">Find Banana!</span>
           <button id="playAgain" style="display: none;">Play Again?</button>
         </div>

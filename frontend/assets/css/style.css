@@ -113,124 +113,7 @@ body {
   background-color: rgb(255, 88, 88);
 } */
 
-#themePage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;  
-  align-items: center;      
-  height: 100vh;
-  /* overflow: hidden;      */
-}
 
-/* Top Bar */
-.themeTopBar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logoutBtn {
-  background: none;
-  border: none;
-  font-size: 1.3vw;
-  cursor: pointer;
-  margin-top: 1vw;
-  margin-left: 18vw;
-}
-
-.userInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 18vw;
-  margin-top: 6vh;
-}
-
-.userAvatar {
-  width: 5vw;
-  border-radius: 50%;
-  /* margin-right: 10vw; */
-}
-
-.themeHeading {
-  margin-top: -5vw;  
-  font-size: 1.7vw;   
-  letter-spacing: 0.15vw;
-  margin-left: 20vw;
-}
-
-.themeSub {
-  margin-top: -12vw;
-  margin-bottom: 1vw;
-  font-size: 1.5vw;
-  margin-left: 20vw;
-}
-
-.themeGrid {
-  width: 45vw;
-  height: 26vh;       
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 1.6vw;
-
-  /* Remove old manual positioning */
-  /* position: relative; */
-  top: 50vw;
-  margin-left: 0;
-
-  /* Center the grid */
-  margin: 0 auto;
-}
-
-
-/* Cards */
-.themeCard {
-    /* margin: 0; */
-  background-color: #fff3c9;
-  border-radius: 20px;
-  padding: 1.4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  cursor: pointer;
-  transition: transform .25s ease;
-}
-
-.themeCard:hover {
-  transform: scale(1.05);
-}
-
-/* Big card spans 2 rows */
-.themeCard.big {
-  grid-row: span 2;
-}
-
-/* Images */
-.themeImg {
-  width: 7vw;
-}
-
-.bigImg {
-  width: 13vw;
-}
-
-/* Buttons */
-.btnTheme {
-  margin-top: 1vw;
-  background-color: transparent;
-  border: none;
-  font-size: 1.4vw;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.bigBtn {
-  font-size: 1.8vw;
-}
 
 
 /* //////////////////////////////////////////////////////////// */
@@ -242,7 +125,7 @@ body {
 .screen {
   width: 100%;
   height: 100vh;
-  position: relative;
+  position: absolute;
 }
 
 h1 {
@@ -465,6 +348,132 @@ p {
     font-size: 1vw;
 }
 
+/* //////////////////////////// */
+
+#themePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;      
+  height: 100vh;
+  /* overflow: hidden;      */
+}
+
+/* Top Bar */
+.themeTopBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  font-size: 1.3vw;
+  cursor: pointer;
+  margin-top: 1vw;
+  margin-left: 18vw;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 18vw;
+  margin-top: 6vh;
+}
+
+.userAvatar {
+  width: 5vw;
+  border-radius: 50%;
+  /* margin-right: 10vw; */
+}
+
+.themeHeading {
+  margin-top: -5vw;  
+  font-size: 1.7vw;   
+  letter-spacing: 0.15vw;
+  margin-left: 20vw;
+}
+
+.themeSub {
+  margin-top: -12vw;
+  margin-bottom: 0;
+  font-size: 1.5vw;
+  margin-left: 20vw;
+}
+
+.themeGrid {
+  width: 45vw;
+  height: 26vh;       
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.7vw;
+  position: relative;
+  margin: 0 auto;
+  top: 10vw;
+  left: -18vw;
+}
+
+
+/* Cards */
+.themeCard {
+    /* margin: 0; */
+  background-color: #fff3c9;
+  border-radius: 20px;
+  padding-left: 1.4vw;
+  padding-right: 1.4vw;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  cursor: pointer;
+  transition: transform .25s ease;
+}
+
+.themeCard:hover {
+  transform: scale(1.05);
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+/* Big card spans 2 rows */
+.themeCard.big {
+  grid-row: span 2;
+}
+
+/* Images */
+.themeImg {
+  /* position: relative; */
+  width: 6vw;
+}
+
+.bigImg {
+  width: 13vw;
+  position: relative;
+  top: 20%
+}
+
+/* Buttons */
+.btnTheme {
+  margin-top: 1vw;
+  background-color: transparent;
+  border: none;
+  font-size: 1.4vw;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bigBtn {
+  font-size: 1.8vw;
+}
+
+/* ////////////////////////////// */
+
 .btnBackInTh{
   opacity: 1;
   background: transparent;
@@ -500,10 +509,19 @@ p {
   right: 0;
 }
 
+#themePage{
+  overflow: hidden;
+}
+
+.screen{
+  /* height: 100%; */
+  overflow: hidden;
+}
+
 .themeTopBar{
   position: absolute;
   left: 2%;
-  top: 12%;
+  top: 10%;
   /* gap: 0; */
 }
 
@@ -536,24 +554,41 @@ p {
 
 .themeGrid{
   position: relative;
-  top: 0;
-  /* width: 20%; */
-  /* height: 20%; */
+  top: -6.5vw;
+  width: 10%;
+  height: 10%;
 }
 
 .themeCard{
-  /* height: 50%; */
+  position:static;
+  /* height: 75%; */
 }
+
+#themeImg3{
+  margin-top: 2vw;
+  width: 9vw;
+}
+
+#themeImg4{
+  margin-top: 1vw;
+  width: 7vw;
+}
+
+#themeImg5{
+  width: 6.5vw;
+}
+
+/* ////////////////////////////////////////// */
 
 #ansDiv{
   background-color: #F8DD5A;
-  width: 27%;
+  width: 45%;
   height: 10%;
   position: absolute;
   margin: auto;
   top: 0;
   bottom: 70%;
-  left: 0;
+  left: 18vw;
   right: 12%;
   border-radius: 1vw;
   align-items: center;
@@ -573,14 +608,14 @@ p {
 #ansTopic{
   position: absolute;
   top: 28%;
-  left: 7%;
+  left: 5%;
   font-size: 1.5vw;
 }
 
 #result{
   position: absolute;
   top: 24%;
-  left: 48%;
+  left: 71%;
   font-size: 2vw;
 }
 
@@ -601,6 +636,24 @@ p {
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(255,255,255,0.9);
 }
+
+#ansDiv button{
+  position: relative;
+  width: 27px;
+  height: 27px;
+  margin-right: 0.2vw;
+  left: 9vw;
+  top: 1.4vw;
+  background-color: #fff41f;
+  border-color: transparent;
+box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+#ansDiv button:hover{
+box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+/* //////////////////////////////////// */
 
 .loader {
   width: 7.1vw;
