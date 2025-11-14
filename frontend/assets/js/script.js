@@ -42,6 +42,17 @@ const soundToggle = document.getElementById("soundToggle");
 
 let isMuted = false;
 
+soundToggle.addEventListener("click", () => {
+    if (isMuted) {
+        bgMusic.muted = false;
+        soundToggle.textContent = "🔊"; // unmuted icon
+        isMuted = false;
+    } else {
+        bgMusic.muted = true;
+        soundToggle.textContent = "🔇"; // muted icon
+        isMuted = true;
+    }
+});
 
 
 

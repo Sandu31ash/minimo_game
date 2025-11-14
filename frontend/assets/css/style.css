@@ -255,23 +255,20 @@ p {
 }
 
 #soundToggle {
-    position: absolute;
+    position: absolute;   /* place it where you want */
     top: 20px;
     right: 20px;
-    font-size: 32px;
-    cursor: pointer;
-    user-select: none;
-
-    background: rgba(255, 255, 255, 0.7);
-    padding: 8px 12px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
-    transition: transform 0.15s ease, background 0.2s;
+    font-size: 28px;      /* make it visible */
+    cursor: pointer;      /* ensures pointer on hover */
+    z-index: 1000;        /* above other elements */
+    user-select: none;    /* optional: prevent text selection */
 }
+
 
 #soundToggle:hover {
     transform: scale(1.2);
     background: white;
+    cursor: pointer;
 }
 
 
