@@ -34,7 +34,16 @@ const BASE_URL = "http://localhost:3000/api/";
 
 btnPlay.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_LOGIN");
+  document.getElementById("bgMusic").play();
 });
+
+const bgMusic = document.getElementById("bgMusic");
+const soundToggle = document.getElementById("soundToggle");
+
+let isMuted = false;
+
+
+
 
 btnBack.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_MAIN");
@@ -350,18 +359,27 @@ const answerButtons = document.querySelectorAll(".ansBtn");
 
 answerButtons.forEach(btn => {
   btn.addEventListener("click", () => {
-    const value = parseInt(btn.textContent); // get button number (0–9)
+    const value = parseInt(btn.textContent); 
     const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
 
     console.log("Button clicked:", value);
 
     if (value === correctAnswer) {
       result.textContent = "You won!";
-      playAgain.style.display = "block";
+      result.style.color = "White";
+      result.classList.remove("pop"); 
+  void result.offsetWidth;      
+  result.classList.add("pop");     
+  playAgain.style.display = "block";
     } else {
-      result.textContent = "Try Again!";
-      playAgain.style.display = "none";
-    }
+  result.textContent = "Try Again!";
+  result.style.color = "Red";
+  result.classList.remove("pop"); 
+  void result.offsetWidth;      
+  result.classList.add("pop");     
+  playAgain.style.display = "none";
+}
+
   });
 });
 
