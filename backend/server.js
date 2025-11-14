@@ -35,26 +35,54 @@ db.connect((err) => {
   }
 });
 
-//Register API
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({ limit: "20mb", extended: true }));
 
-app.post("/api/register", async (req, res) => {
-    const { username, password, avatar } = req.body;
 
-    if (!avatar) {
-        return res.status(400).json({ error: "Avatar image is required" });
-    }
 
-    try {
-        const sql = "INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)";
-        await db.query(sql, [username, password, avatar]);
+const multer = require("multer");
 
-        res.status(200).json({ message: "Registration successful" });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Database error" });
+const storage = multer.diskStorage({
+    destination: "uploads/",
+    filename: (req, file, cb) => {
+        const uniqueName = Date.now() + "-" + file.originalname;
+        cb(null, uniqueName);
     }
 });
+
+const upload = multer({ storage });
+
+
+//Register API
+
+app.post("/api/register", upload.single("avatar"), async (req, res) => {
+  console.log("REQ.BODY:", req.body);
+  console.log("REQ.FILE:", req.file);
+
+  const { username, password } = req.body;
+
+  if (!req.file) {
+    return res.status(400).json({ error: "Avatar image required" });
+  }
+
+  const avatarPath = "/uploads/" + req.file.filename;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql = "INSERT INTO users (username, password_hash, avatar) VALUES (?, ?, ?)";
+    await db.execute(sql, [username, hashedPassword, avatarPath]);
+
+    res.status(200).json({ message: "Registration successful" });
+  } catch (err) {
+    console.log("DB ERROR:", err);
+    res.status(500).json({ error: err.message }); // show real error
+  }
+});
+
+
+
+
 
 
 // app.post("/api/register", async (req, res) => {

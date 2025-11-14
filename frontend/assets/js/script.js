@@ -119,55 +119,46 @@ function showName(username){
 regBtn.addEventListener("click", async () => {
   const username = document.getElementById("regUsername").value.trim();
   const password = document.getElementById("regPassword").value.trim();
-  const errorMsgReg = document.getElementById("errorMsgReg");
   const imgUploader = document.getElementById("imgUploader");
-  const avatorImg = document.getElementById("avatorImg");
-
-  errorMsgReg.textContent = "";
-
-  if (!imgUploader.files || imgUploader.files.length === 0) {
-    errorMsgReg.style.color = "red";
-    errorMsgReg.textContent = "Please upload an avatar image!";
-    return;
-  }
 
   if (!username || !password) {
-    errorMsgReg.style.color = "red";
     errorMsgReg.textContent = "Username and password cannot be empty!";
+    errorMsgReg.style.color = "red";
     return;
   }
 
-  try {
-    const file = imgUploader.files[0];
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const avatarBase64 = reader.result; // image as Base64 string
-
-      const res = await fetch("http://localhost:3000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, avatar: avatarBase64 }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        errorMsgReg.style.color = "green";
-        errorMsgReg.textContent = "Registration successful! You can login now.";
-        avatorImg.src = "assets/images/avator.png"; // reset avatar if needed
-        imgUploader.value = ""; // clear file input
-      } else {
-        errorMsgReg.style.color = "red";
-        errorMsgReg.textContent = data.error;
-      }
-    };
-
-    reader.readAsDataURL(file);
-  } catch (err) {
+  if (!imgUploader.files || imgUploader.files.length === 0) {
+    errorMsgReg.textContent = "Please upload an avatar image!";
     errorMsgReg.style.color = "red";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("avatar", imgUploader.files[0]); // send actual file!
+
+  try {
+    const res = await fetch("http://localhost:3000/api/register", {
+      method: "POST",
+      body: formData, // NO JSON headers!
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      errorMsgReg.style.color = "green";
+      errorMsgReg.textContent = "Registration successful!";
+      imgUploader.value = "";
+    } else {
+      errorMsgReg.style.color = "red";
+      errorMsgReg.textContent = data.error;
+    }
+  } catch (err) {
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
 });
+
 
 
 // regBtn.addEventListener("click", async () => {
