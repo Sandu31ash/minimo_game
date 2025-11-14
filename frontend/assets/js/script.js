@@ -30,6 +30,8 @@ const ans0 = document.getElementById("ans0");
 
 const BASE_URL = "http://localhost:3000/api/";
 
+// document.getElementById("bgMusic").play();
+
 //UI Events
 
 btnPlay.addEventListener('click', () => {
@@ -39,20 +41,17 @@ btnPlay.addEventListener('click', () => {
 
 const bgMusic = document.getElementById("bgMusic");
 const soundToggle = document.getElementById("soundToggle");
+const icon = soundToggle.querySelector("i");
 
 let isMuted = false;
 
 soundToggle.addEventListener("click", () => {
-    if (isMuted) {
-        bgMusic.muted = false;
-        soundToggle.textContent = "🔊"; // unmuted icon
-        isMuted = false;
-    } else {
-        bgMusic.muted = true;
-        soundToggle.textContent = "🔇"; // muted icon
-        isMuted = true;
-    }
+    isMuted = !isMuted;
+    bgMusic.muted = isMuted;
+    icon.className = isMuted ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high";
 });
+soundToggle.classList.toggle("playing", !isMuted);
+
 
 
 
@@ -124,10 +123,8 @@ regBtn.addEventListener("click", async () => {
   const imgUploader = document.getElementById("imgUploader");
   const avatorImg = document.getElementById("avatorImg");
 
-  // Clear old message
   errorMsgReg.textContent = "";
 
-  // Check if avatar file is selected
   if (!imgUploader.files || imgUploader.files.length === 0) {
     errorMsgReg.style.color = "red";
     errorMsgReg.textContent = "Please upload an avatar image!";
@@ -141,7 +138,6 @@ regBtn.addEventListener("click", async () => {
   }
 
   try {
-    // Optional: Convert image to Base64 if you want to send it to backend
     const file = imgUploader.files[0];
     const reader = new FileReader();
     reader.onloadend = async () => {

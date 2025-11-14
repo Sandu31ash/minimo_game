@@ -36,23 +36,44 @@ db.connect((err) => {
 });
 
 //Register API
-app.post("/api/register", async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    db.query(
-     "INSERT INTO users (username, password_hash) VALUES (?, ?)",
-     [username, hashedPassword],
 
-      (err, result) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: "User registered successfully" });
-      }
-    );
-  } catch (err) {
-    return res.status(500).json({ error: "Server error" });
-  }
+app.post("/api/register", async (req, res) => {
+    const { username, password, avatar } = req.body;
+
+    if (!avatar) {
+        return res.status(400).json({ error: "Avatar image is required" });
+    }
+
+    try {
+        const sql = "INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)";
+        await db.query(sql, [username, password, avatar]);
+
+        res.status(200).json({ message: "Registration successful" });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Database error" });
+    }
 });
+
+
+// app.post("/api/register", async (req, res) => {
+//   const { username, password } = req.body;
+//   try {
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     db.query(
+//      "INSERT INTO users (username, password_hash) VALUES (?, ?)",
+//      [username, hashedPassword],
+
+//       (err, result) => {
+//         if (err) return res.status(500).json({ error: err.message });
+//         res.json({ message: "User registered successfully" });
+//       }
+//     );
+//   } catch (err) {
+//     return res.status(500).json({ error: "Server error" });
+//   }
+// });
 
 //Login API
 app.post("/api/login", (req, res) => {

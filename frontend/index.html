@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimo</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.ico">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 />
 
   </head>
 <body class="bg-main">
-  <div id="soundToggle">🔊</div>
+    <div id="soundToggle">
+      <i class="fa-solid fa-volume-high"></i>
+    </div>
+    <audio id="bgMusic" src="assets/sounds/minimo.mp3" loop autoplay></audio>
 
     <div id="mainPage" class="screen">
         <!-- <h1 id="h1">Welcome to Minimo!</h1> -->
@@ -228,9 +232,9 @@
 
     <div id="themePage1" class="screen" style="display: none;">
         <button id="btnBackTh1" class="btn btnBackInTh">Back</button>
-        <button id="btnTimeTh1" class="btn">Time</button>
+        <!-- <button id="btnTimeTh1" class="btn" style="display: none;">Time</button> -->
 
-        <img id="bananaImg" src="" alt="Banana Puzzle" />
+        <img id="bananaImg" src=""/>
         <div id="bananaLoader" class="loader"></div>
         <!-- <div id="ansDiv">
           <span id="ansTopic">Answer :</span>
@@ -258,19 +262,19 @@
     </div>
     <div id="themePage2" class="screen" style="display: none;">
         <button id="btnBackTh2" class="btn btnBackInTh">Back</button>
-        <button id="btnTimeTh2" class="btn">Time</button>
+        <!-- <button id="btnTimeTh2" class="btn">Time</button> -->
     </div>
     <div id="themePage3" class="screen" style="display: none;">
         <button id="btnBackTh3" class="btn btnBackInTh">Back</button>
-        <button id="btnTimeTh3" class="btn">Time</button>
+        <!-- <button id="btnTimeTh3" class="btn">Time</button> -->
     </div>
     <div id="themePage4" class="screen" style="display: none;">
         <button id="btnBackTh4" class="btn btnBackInTh">Back</button>
-        <button id="btnTimeTh4" class="btn">Time</button>
+        <!-- <button id="btnTimeTh4" class="btn">Time</button> -->
     </div>
     <div id="themePage5" class="screen" style="display: none;">
         <button id="btnBackTh5" class="btn btnBackInTh">Back</button>
-        <button id="btnTimeTh5" class="btn">Time</button>
+        <!-- <button id="btnTimeTh5" class="btn">Time</button> -->
     </div>
 
     <!-- <script src="assets/js/script.js" defer></script> -->
