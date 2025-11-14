@@ -22,9 +22,11 @@ const regBtn = document.getElementById('regBtn')
 const errorMsgReg = document.getElementById('errorMsgReg');
 const regUsername = document.getElementById('regUsername');
 const btnLoginPage = document.getElementById('btnLoginPage');
-const bananaInput = document.getElementById('bananaInput');
+// const bananaInput = document.getElementById('bananaInput');
 const result = document.getElementById('result');
 const playAgain = document.getElementById('playAgain');
+const bananaInput = document.getElementsByClassName("ansBtn");
+const ans0 = document.getElementById("ans0");
 
 const BASE_URL = "http://localhost:3000/api/";
 
@@ -99,33 +101,113 @@ regBtn.addEventListener("click", async () => {
   const username = document.getElementById("regUsername").value.trim();
   const password = document.getElementById("regPassword").value.trim();
   const errorMsgReg = document.getElementById("errorMsgReg");
+  const imgUploader = document.getElementById("imgUploader");
+  const avatorImg = document.getElementById("avatorImg");
+
+  // Clear old message
+  errorMsgReg.textContent = "";
+
+  // Check if avatar file is selected
+  if (!imgUploader.files || imgUploader.files.length === 0) {
+    errorMsgReg.style.color = "red";
+    errorMsgReg.textContent = "Please upload an avatar image!";
+    return;
+  }
 
   if (!username || !password) {
+    errorMsgReg.style.color = "red";
     errorMsgReg.textContent = "Username and password cannot be empty!";
     return;
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
-    });
+    // Optional: Convert image to Base64 if you want to send it to backend
+    const file = imgUploader.files[0];
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const avatarBase64 = reader.result; // image as Base64 string
 
-    const data = await res.json();
+      const res = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, avatar: avatarBase64 }),
+      });
 
-    if (res.ok) {
-      errorMsgReg.style.color = "green";
-      errorMsgReg.textContent = "Registration successful! You can login now.";
-    } else {
-      errorMsgReg.style.color = "red";
-      errorMsgReg.textContent = data.error;
-    }
+      const data = await res.json();
 
+      if (res.ok) {
+        errorMsgReg.style.color = "green";
+        errorMsgReg.textContent = "Registration successful! You can login now.";
+        avatorImg.src = "assets/images/avator.png"; // reset avatar if needed
+        imgUploader.value = ""; // clear file input
+      } else {
+        errorMsgReg.style.color = "red";
+        errorMsgReg.textContent = data.error;
+      }
+    };
+
+    reader.readAsDataURL(file);
   } catch (err) {
+    errorMsgReg.style.color = "red";
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
 });
+
+
+// regBtn.addEventListener("click", async () => {
+//   const username = document.getElementById("regUsername").value.trim();
+//   const password = document.getElementById("regPassword").value.trim();
+//   const errorMsgReg = document.getElementById("errorMsgReg");
+//   const avator = document.getElementById("avatorImg");
+
+//  if(!avator){
+//     errorMsgReg.textContent = "Please upload an avator image!";
+//     return;
+//   }
+
+//   if (!username || !password) {
+//     errorMsgReg.textContent = "Username and password cannot be empty!";
+//     return;
+//   }
+
+ 
+
+//   try {
+//     const res = await fetch("http://localhost:3000/api/register", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ username, password })
+//     });
+
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       errorMsgReg.style.color = "green";
+//       errorMsgReg.textContent = "Registration successful! You can login now.";
+//     } else {
+//       errorMsgReg.style.color = "red";
+//       errorMsgReg.textContent = data.error;
+//     }
+
+//   } catch (err) {
+//     errorMsgReg.textContent = "Network error. Backend not running.";
+//   }
+// });
+
+const imgUploader = document.getElementById('imgUploader');
+const avatorImg = document.getElementById('avatorImg');
+
+imgUploader.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      avatorImg.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 
 
 // document.getElementById("registerBtn").addEventListener("click", async () => {
@@ -226,38 +308,59 @@ btnBackTh5.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const bananaInput = document.getElementById("bananaInput");
-  const result = document.getElementById("result");
+// document.addEventListener("DOMContentLoaded", () => {
+//   const bananaInput = document.getElementById("bananaInput");
+//   const result = document.getElementById("result");
 
-  bananaInput.addEventListener("input", () => {
+//   bananaInput.addEventListener("input", () => {
 
-    // Remove anything not a number
-    bananaInput.value = bananaInput.value.replace(/[^0-9]/g, "");
+//     // Remove anything not a number
+//     bananaInput.value = bananaInput.value.replace(/[^0-9]/g, "");
 
-    // Convert value to number
-    let value = parseInt(bananaInput.value, 10);
+//     // Convert value to number
+//     let value = parseInt(bananaInput.value, 10);
 
-    // If invalid or empty, clear message and stop
-    if (isNaN(value)) {
-      result.textContent = "";
-      return;
-    }
+//     // If invalid or empty, clear message and stop
+//     if (isNaN(value)) {
+//       result.textContent = "";
+//       return;
+//     }
 
+//     const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
+
+//     // If value exceeds max (9), reset to 9 (or do what you prefer)
+//     if (value > 9) {
+//       bananaInput.value = 9;
+//       result.textContent = "Max value is 9";
+//     } else {
+//       if(value==correctAnswer){
+//         result.textContent = "You won!";
+//         playAgain.style.display = "block";
+//       }else{
+//         result.textContent = "Try Again!";
+//         playAgain.style.display = "none";
+//       }
+//     }
+//   });
+// });
+
+const answerButtons = document.querySelectorAll(".ansBtn");
+// const result = document.getElementById("result");
+// const playAgain = document.getElementById("playAgain");
+
+answerButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = parseInt(btn.textContent); // get button number (0–9)
     const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
 
-    // If value exceeds max (9), reset to 9 (or do what you prefer)
-    if (value > 9) {
-      bananaInput.value = 9;
-      result.textContent = "Max value is 9";
+    console.log("Button clicked:", value);
+
+    if (value === correctAnswer) {
+      result.textContent = "You won!";
+      playAgain.style.display = "block";
     } else {
-      if(value==correctAnswer){
-        result.textContent = "You won!";
-        playAgain.style.display = "block";
-      }else{
-        result.textContent = "Try Again!";
-        playAgain.style.display = "none";
-      }
+      result.textContent = "Try Again!";
+      playAgain.style.display = "none";
     }
   });
 });

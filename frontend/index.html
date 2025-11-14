@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimo</title>
     <link rel="stylesheet" href="assets/css/style.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+  </head>
 <body class="bg-main">
     <div id="mainPage" class="screen">
         <!-- <h1 id="h1">Welcome to Minimo!</h1> -->
@@ -36,7 +39,14 @@
         <div class="reg-box">
         <button id="btnBackReg" class="back-btn btn">← Back</button>
         <h2>Register</h2>
-        <img src="assets/images/avator.png" alt="" id="avatorImg">
+        <div id="avatarContainer">
+          <img src="assets/images/avator.png" alt="Avatar" id="avatorImg">
+          <label for="imgUploader" id="uploadIcon">
+            <i class="fa fa-camera"></i>
+          </label>
+          <input type="file" id="imgUploader" accept="image/*" hidden>
+        </div>
+
         <input type="text" id="regUsername" placeholder="New Username">
         <input type="password" id="regPassword" placeholder="New Password">
         <p id="errorMsgReg" class="error-msg"></p>
