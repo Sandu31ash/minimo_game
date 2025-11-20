@@ -24,10 +24,10 @@ function hideAll() {
   themePage5.style.display = 'none';
 }
 
-function clearFields(){
-  usernameField.value("");
-  regUsername.value("");
-}
+// function clearFields(){
+//   usernameField.value("");
+//   regUsername.value("");
+// }
 
 EventBus.on("NAVIGATE_MAIN", () => {
   hideAll();

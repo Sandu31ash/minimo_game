@@ -26,13 +26,16 @@ const btnLoginPage = document.getElementById('btnLoginPage');
 const result = document.getElementById('result');
 const playAgain = document.getElementById('playAgain');
 const bananaInput = document.getElementsByClassName("ansBtn");
-const ans0 = document.getElementById("ans0");
+// const ans0 = document.getElementById("ans0");
+const loginPage = document.getElementById('loginPage');
+const themePage = document.getElementById('themePage');
+
 
 const BASE_URL = "http://localhost:3000/api/";
 
 // document.getElementById("bgMusic").play();
 
-//UI Events
+//////UI Events////////
 
 btnPlay.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_LOGIN");
@@ -70,6 +73,10 @@ btnRegPage.addEventListener('click', () => {
 btnLoginPage.addEventListener('click', () =>{
   EventBus.emit("NAVIGATE_LOGIN");
 });
+
+
+
+/////////////Login//////////////////////////
 
 login.addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
@@ -116,7 +123,14 @@ function showName(username){
 
 }
 
-regBtn.addEventListener("click", async () => {
+
+
+///////////Register/////////////
+
+regBtn.addEventListener("click", async (event) => {
+  
+  event.preventDefault();
+
   const username = document.getElementById("regUsername").value.trim();
   const password = document.getElementById("regPassword").value.trim();
   const imgUploader = document.getElementById("imgUploader");
@@ -141,7 +155,7 @@ regBtn.addEventListener("click", async () => {
   try {
     const res = await fetch("http://localhost:3000/api/register", {
       method: "POST",
-      body: formData, // NO JSON headers!
+      body: formData,
     });
 
     const data = await res.json();
@@ -150,6 +164,12 @@ regBtn.addEventListener("click", async () => {
       errorMsgReg.style.color = "green";
       errorMsgReg.textContent = "Registration successful!";
       imgUploader.value = "";
+      // loginPage.style.display = "block";
+      
+      setTimeout(() => {
+        errorMsgReg.textContent = "";
+      }, 3000);
+
     } else {
       errorMsgReg.style.color = "red";
       errorMsgReg.textContent = data.error;
@@ -215,23 +235,6 @@ imgUploader.addEventListener('change', (event) => {
   }
 });
 
-
-
-// document.getElementById("registerBtn").addEventListener("click", async () => {
-//   const username = document.getElementById("regUsername").value;
-//   const password = document.getElementById("regPassword").value;
-
-//   const res = await fetch("http://localhost:3000/api/register", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ username, password })
-//   });
-
-//   const data = await res.json();
-//   alert(data.message || data.error);
-// });
-
-
 btnLogout.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_LOGIN");
 });
@@ -242,7 +245,7 @@ btnTh1.addEventListener('click', async () => {
   const loader = document.querySelector('.loader'); // your loader element
   const bananaImg = document.getElementById("bananaImg");
 
-  // Show loader
+  /////Show loader/////
   loader.style.display = "block";
 
   try {
@@ -261,7 +264,6 @@ btnTh1.addEventListener('click', async () => {
 
       const correctAnswer = localStorage.getItem("bananaAnswer");
 
-      // Wait until the image is fully loaded before hiding loader
       bananaImg.onload = () => {
         loader.style.display = "none";
       };
@@ -321,13 +323,10 @@ btnBackTh5.addEventListener('click', () => {
 
 //   bananaInput.addEventListener("input", () => {
 
-//     // Remove anything not a number
 //     bananaInput.value = bananaInput.value.replace(/[^0-9]/g, "");
 
-//     // Convert value to number
 //     let value = parseInt(bananaInput.value, 10);
 
-//     // If invalid or empty, clear message and stop
 //     if (isNaN(value)) {
 //       result.textContent = "";
 //       return;
@@ -335,7 +334,6 @@ btnBackTh5.addEventListener('click', () => {
 
 //     const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
 
-//     // If value exceeds max (9), reset to 9 (or do what you prefer)
 //     if (value > 9) {
 //       bananaInput.value = 9;
 //       result.textContent = "Max value is 9";
@@ -386,7 +384,6 @@ playAgain.addEventListener('click', async () => {
   const loader = document.getElementById("bananaLoader");
   const image = document.getElementById("bananaImg");
 
-  // Show loader & hide image temporarily
   loader.style.display = "block";
   image.style.opacity = "0";
 
@@ -400,7 +397,6 @@ playAgain.addEventListener('click', async () => {
 
       localStorage.setItem("bananaAnswer", ans);
 
-      // Load image fully before showing it
       image.onload = () => {
         loader.style.display = "none";
         image.style.opacity = "1";
@@ -434,214 +430,6 @@ playAgain.addEventListener('click', async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const themePage5 = document.getElementById('themePage5');
-// const themePage4 = document.getElementById('themePage4');
-// const themePage3 = document.getElementById('themePage3');
-// const themePage2 = document.getElementById('themePage2');
-// const themePage1 = document.getElementById('themePage1');
-// const themePage = document.getElementById('themePage');
-// const show = document.getElementById('showUsername');
-// const loginPage = document.getElementById('loginPage');
-// const mainPage = document.getElementById('mainPage')
-// const btnPlay = document.getElementById('btnPlay');
-// const btnBack = document.getElementById('btnBack');
-// const btnLogout = document.getElementById('btnLogout');
-// const btnTh1 = document.getElementById('btnTh1');
-// const btnTh2 = document.getElementById('btnTh2');
-// const btnTh3 = document.getElementById('btnTh3');
-// const btnTh4 = document.getElementById('btnTh4');
-// const btnTh5 = document.getElementById('btnTh5');
-// const btnBackTh1 = document.getElementById('btnBackTh1');
-// const btnBackTh2 = document.getElementById('btnBackTh2');
-// const btnBackTh3 = document.getElementById('btnBackTh3');
-// const btnBackTh4 = document.getElementById('btnBackTh4');
-// const btnBackTh5 = document.getElementById('btnBackTh5');
-// const login = document.getElementById('login');
-
-// const usernameField = document.getElementById('username');
-// const passwordField = document.getElementById('password');
-// const errorMsg = document.getElementById('errorMsg');
-
-// // document.getElementById('showUsername').textContent = localStorage.getItem("username");
-
-// btnPlay.addEventListener('click', () => {
-//   mainPage.style.display = 'none';
-//   loginPage.style.display = 'flex';
-//   // document.body.classList.remove('bg-main');
-//   // document.body.classList.add('bg-login');
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
-
-// btnBack.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   mainPage.style.display = 'block';
-//   // document.body.classList.remove('bg-login');
-//   // document.body.classList.add('bg-main');
-//   document.body.style.backgroundImage = 'url("assets/images/minimo_bg.png")';
-// });
-
-// login.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   themePage.style.display = 'grid';
-//   // document.body.classList.remove('bg-login');
-//   // document.body.classList.remove('bg-main');
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-
-//   const username = usernameField.value.trim();
-//   const password = passwordField.value.trim();
-
-//   if (username === "" || password === "") {
-//     errorMsg.textContent = "Please fill all fields";
-//     return;
-//   }
-
-//   localStorage.setItem("username", username);
-//   localStorage.setItem("password", password);
-//   // window.print(username);
-//   // show.value(username);
-//   // usernameField.addEventListener('input', showName);
-//   showName(username);
-
-// });
-
-// function showName(username){
-
-//   // const usernameField = document.getElementById('username');
-//   // const username = usernameField.value;
-
-//   const showUsername = document.getElementById('showUsername');
-//   showUsername.textContent = username;
-
-// }
-
-// btnLogout.addEventListener('click', () => {
-//   loginPage.style.display = 'flex';
-//   mainPage.style.display = 'none';
-//   themePage.style.display = 'none';
-//   // document.body.classList.remove('bg-login');
-//   // document.body.classList.remove('bg-main');
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
-
-// btnTh1.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   themePage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage1.style.display = 'block';
-//   // document.body.classList.remove('bg-login');
-//   // document.body.classList.remove('bg-main');
-//   document.body.style.backgroundImage = 'url("assets/images/theme_minimo_bg.png")';
-// });
-
-// btnBackTh1.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage1.style.display = 'none';
-//   themePage.style.display = 'grid';
-//   // document.body.classList.remove('bg-login');
-//   // document.body.classList.remove('bg-main');
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
-
-// btnTh2.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   themePage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'block';
-//   // document.body.classList.remove('bg-login');
-//   // document.body.classList.remove('bg-main');
-//   document.body.style.backgroundImage = 'url("assets/images/theme_carrot_bg.png")';
-// });
-
-// btnBackTh2.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage.style.display = 'grid';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';  
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
-
-// btnTh3.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   themePage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';
-//   themePage3.style.display = 'block';
-//   document.body.style.backgroundImage = 'url("assets/images/theme_acorn_bg.png")';
-// });
-
-// btnBackTh3.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage.style.display = 'grid';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';
-//   themePage3.style.display = 'none';  
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
-
-// btnTh4.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   themePage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';
-//   themePage3.style.display = 'none';
-//   themePage4.style.display = 'block';
-//   document.body.style.backgroundImage = 'url("assets/images/theme_clover_bg.png")';
-// });
-
-// btnBackTh4.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage.style.display = 'grid';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';
-//   themePage3.style.display = 'none';  
-//   themePage4.style.display = 'none';
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
-
-// btnTh5.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   themePage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';
-//   themePage3.style.display = 'none';
-//   themePage4.style.display = 'none';
-//   themePage5.style.display = 'block';
-//   document.body.style.backgroundImage = 'url("assets/images/theme_pawpsicle_bg.png")';
-// });
-
-// btnBackTh5.addEventListener('click', () => {
-//   loginPage.style.display = 'none';
-//   mainPage.style.display = 'none';
-//   themePage.style.display = 'grid';
-//   themePage1.style.display = 'none';
-//   themePage2.style.display = 'none';
-//   themePage3.style.display = 'none';  
-//   themePage4.style.display = 'none';
-//   themePage5.style.display = 'none';
-//   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
-// });
 
 
 
