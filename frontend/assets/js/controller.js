@@ -75,14 +75,23 @@ EventBus.on("NAVIGATE_REG", () => {
 EventBus.on("NAVIGATE_THEME_MENU", (username) => {
   hideAll();
   themePage.style.display = 'grid';
+  const savedImage = localStorage.getItem("profileImage");
+if (savedImage) {
+    document.querySelectorAll(".userAvatar").forEach(img => {
+        img.src = savedImage;
+    });
+}
+
   document.getElementById("showUsername").textContent = username;
   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
+  loadUserInfo();
 });
 
 EventBus.on("NAVIGATE_THEME_1", () => {
   hideAll();
   themePage1.style.display = 'block';
   document.body.style.backgroundImage = 'url("assets/images/theme_minimo_bg.png")';
+  loadUserInfo();
 });
 
 EventBus.on("NAVIGATE_THEME_2", () => {
@@ -115,3 +124,13 @@ EventBus.on("NAVIGATE_THEME_5", () => {
 //   document.getElementById("showUsername").textContent = username;
 //   document.body.style.backgroundImage = 'url("assets/images/login_bg.png")';
 // });
+
+function loadUserInfo() {
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+        document.querySelectorAll(".avatar").forEach(img => {
+            img.src = savedImage;
+        });
+    }
+}
+

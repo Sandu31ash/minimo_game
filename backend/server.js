@@ -13,6 +13,8 @@ const axios = require("axios");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
 
 //////base URL for banana API//////
 const MINIMO_API = "http://marcconrad.com/uob/";
@@ -55,29 +57,44 @@ const upload = multer({ storage });
 //////Register API//////
 
 app.post("/api/register", upload.single("avatar"), async (req, res) => {
-  console.log("REQ.BODY:", req.body);
-  console.log("REQ.FILE:", req.file);
+    const { username, password } = req.body;
+    const avatar = req.file ? req.file.filename : null;
 
-  const { username, password } = req.body;
+    await db.query(
+        "INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)",
+        [username, password, avatar]
+    );
 
-  if (!req.file) {
-    return res.status(400).json({ error: "Avatar image required" });
-  }
-
-  const avatarPath = "/uploads/" + req.file.filename;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const sql = "INSERT INTO users (username, password_hash, avatar) VALUES (?, ?, ?)";
-    await db.execute(sql, [username, hashedPassword, avatarPath]);
-
-    res.status(200).json({ message: "Registration successful" });
-  } catch (err) {
-    console.log("DB ERROR:", err);
-    res.status(500).json({ error: err.message }); // show real error
-  }
+    res.json({ message: "User registered", avatar });
 });
+
+
+// app.post("/api/register", upload.single("avatar"), async (req, res) => {
+//   console.log("REQ.BODY:", req.body);
+//   console.log("REQ.FILE:", req.file);
+
+//   const { username, password } = req.body;
+
+//   if (!req.file) {
+//     return res.status(400).json({ error: "Avatar image required" });
+//   }
+
+//   const avatarPath = "/uploads/" + req.file.filename;
+
+//   try {
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const sql = "INSERT INTO users (username, password_hash, avatar) VALUES (?, ?, ?)";
+//     await db.execute(sql, [username, hashedPassword, avatarPath]);
+
+//     res.status(200).json({ message: "Registration successful" });
+//   } catch (err) {
+//     console.log("DB ERROR:", err);
+//     res.status(500).json({ error: err.message }); // show real error
+//   }
+// });
+
+
 
 // app.post("/api/register", async (req, res) => {
 //   const { username, password } = req.body;
@@ -98,23 +115,59 @@ app.post("/api/register", upload.single("avatar"), async (req, res) => {
 // });
 
 
-//////Login API//////
+//////Login API (Fixed)//////
 app.post("/api/login", (req, res) => {
-
   const { username, password } = req.body;
-  
+
   db.query("SELECT * FROM users WHERE username = ?", [username], async (err, results) => {
-    if (err || results.length === 0) return res.status(400).json({ error: "Invalid username" });
+    if (err || results.length === 0)
+      return res.status(400).json({ error: "Invalid username" });
 
     const user = results[0];
     const match = await bcrypt.compare(password, user.password_hash);
+    if (!match)
+      return res.status(400).json({ error: "Incorrect password" });
 
-    if (!match) return res.status(400).json({ error: "Incorrect password" });
+    // Use correct column name: avatar
+    // The DB already contains "/uploads/filename.png"
+    const avatarPath = user.avatar; 
 
-    res.json({ message: "Login successful" });
+    // Build full accessible URL
+    const profilePicUrl = avatarPath
+      ? `http://localhost:3000${avatarPath}`
+      : null;
+
+    res.json({
+      message: "Login successful",
+      user: {
+        id: user.id,
+        username: user.username,
+        profilePic: profilePicUrl
+      }
+    });
   });
-
 });
+
+
+
+
+//////Login API//////
+// app.post("/api/login", (req, res) => {
+
+//   const { username, password } = req.body;
+  
+//   db.query("SELECT * FROM users WHERE username = ?", [username], async (err, results) => {
+//     if (err || results.length === 0) return res.status(400).json({ error: "Invalid username" });
+
+//     const user = results[0];
+//     const match = await bcrypt.compare(password, user.password_hash);
+
+//     if (!match) return res.status(400).json({ error: "Incorrect password" });
+
+//     res.json({ message: "Login successful" });
+//   });
+
+// });
 
 // app.get("/api/banana", async (req, res) => {
   

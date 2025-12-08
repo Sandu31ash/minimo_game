@@ -104,6 +104,16 @@ login.addEventListener("click", async () => {
       errorMsg.textContent = "";
       showName(username);
       // clearFields();
+      const userImage = data.image; // returned from backend
+      localStorage.setItem("profileImage", userImage);
+      localStorage.setItem("username", data.username);
+      const savedImage = localStorage.getItem("profileImage");
+if (savedImage) {
+    document.querySelectorAll(".userAvatar").forEach(img => {
+        img.src = savedImage;
+    });
+}
+
     } else {
       errorMsg.textContent = data.error;
     }
