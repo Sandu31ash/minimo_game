@@ -57,16 +57,47 @@ const upload = multer({ storage });
 //////Register API//////
 
 app.post("/api/register", upload.single("avatar"), async (req, res) => {
-    const { username, password } = req.body;
-    const avatar = req.file ? req.file.filename : null;
+  console.log("REQ.BODY:", req.body);
+  console.log("REQ.FILE:", req.file);
 
-    await db.query(
-        "INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)",
-        [username, password, avatar]
-    );
+  const { username, password } = req.body;
 
-    res.json({ message: "User registered", avatar });
+  if (!req.file) {
+    return res.status(400).json({ error: "Avatar image required" });
+  }
+
+  const avatarPath = "/uploads/" + req.file.filename;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql = "INSERT INTO users (username, password_hash, avatar) VALUES (?, ?, ?)";
+    await db.execute(sql, [username, hashedPassword, avatarPath]);
+
+    res.status(200).json({ message: "Registration successful" });
+  } catch (err) {
+    console.log("DB ERROR:", err);
+    res.status(500).json({ error: err.message }); // show real error
+  }
 });
+
+// app.post("/api/register", upload.single("avatar"), async (req, res) => {
+//     console.log("register API is called!!!");
+//     const { username, password } = req.body;
+//     const avatar = req.file ? req.file.filename : null;
+
+//     // await db.query(
+//     //     "INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)",
+//     //     [username, password, avatar]
+//     // );
+
+//     await db.promise().query(
+//       "INSERT INTO users (username, password_hash, avatar) VALUES (?, ?, ?)",
+//        [username, password, avatar]
+//     );
+
+//     res.json({ message: "User registered", avatar });
+// });
 
 
 // app.post("/api/register", upload.single("avatar"), async (req, res) => {
@@ -211,7 +242,99 @@ app.get("/api/banana", async (req, res) => {
 
 app.listen(3000, () => console.log("Server listening on 3000"));
 
+app.use(express.json());
+
+// ///////////////////update score/////////////////
+// app.post("/api/update-score", (req, res) => { 
+//   const username = req.body.username; 
+//   console.log("User Name:", req.body.username);
+
+//   const sql = "UPDATE users SET score = IFNULL(score, 0) + 1 WHERE username = ?";
+//   db.query(sql, [username], (err, result) => {
+//     if (err) return res.status(500).send(err);
+//     console.log("Rows affected:", result.affectedRows);
+//     res.json({ success: true });
+//   });
+// });
 
 
+///////////////////update score/////////////////
+app.post("/api/update-score", (req, res) => { 
+  const username = req.body.username; 
+  console.log("User Name:", username);
 
+  //update the score
+  const updateSql = "UPDATE users SET score = IFNULL(score, 0) + 1 WHERE username = ?";
+  db.query(updateSql, [username], (err, result) => {
+    if (err) return res.status(500).send(err);
+
+    console.log("Rows affected:", result.affectedRows);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    //get the updated score
+    const selectSql = "SELECT score FROM users WHERE username = ?";
+    db.query(selectSql, [username], (err2, rows) => {
+      if (err2) return res.status(500).send(err2);
+
+      const updatedScore = rows[0].score;
+      console.log("Updated Score:", updatedScore);
+
+      //back to frontend
+      res.json({ success: true, updatedScore: updatedScore });
+    });
+  });
+});
+
+// Get current score for a user
+app.get("/api/get-score/:username", (req, res) => {
+  const username = req.params.username;
+
+  const sql = "SELECT score FROM users WHERE username = ?";
+  db.query(sql, [username], (err, rows) => {
+    if (err) return res.status(500).send(err);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const score = rows[0].score || 0; // default to 0 if null
+    res.json({ success: true, score });
+  });
+});
+
+
+app.get("/api/game_images", async (req, res) =>{
+
+  const type = req.query.type;
+
+  if (!type) {
+    return res.status(400).json({ error: "type is required" });
+  }
+
+  try {
+    // RANDOM ROW QUERY
+    const [rows] = await db.promise().query(
+      "SELECT img, answer FROM game_items WHERE type = ? ORDER BY RAND() LIMIT 1",
+      [type]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "No data found for this type" });
+    }
+
+    // Send formatted data
+    res.json({
+      image: rows[0].img,
+      answer: rows[0].answer
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+
+});
 

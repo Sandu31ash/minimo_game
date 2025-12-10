@@ -14,6 +14,7 @@ const btnLogout = document.getElementById('btnLogout');
 const btnTh1 = document.getElementById('btnTh1');
 const btnTh2 = document.getElementById('btnTh2');
 const btnTh3 = document.getElementById('btnTh3');
+const btnTh = document.querySelectorAll(".btnTh");
 const usernameField = document.getElementById('username');
 const passwordField = document.getElementById('password');
 const errorMsg = document.getElementById('errorMsg');
@@ -31,6 +32,9 @@ const loginPage = document.getElementById('loginPage');
 const themePage = document.getElementById('themePage');
 const logoutPopup = document.getElementById('logoutPopup');
 const popBtnLogout = document.getElementById('popBtnLogout');
+const userName = document.getElementById('showUsername');
+const scoreVal = document.getElementById('scoreVal');
+const loader = document.querySelector('.loader');
 
 const BASE_URL = "http://localhost:3000/api/";
 
@@ -98,24 +102,63 @@ login.addEventListener("click", async () => {
 
     const data = await res.json();
 
+    // if (res.ok) {
+    //   console.log("Login successful");
+    //   // console.log("Avatar URL :",profilePicUrl);
+    //   loginPage.style.display = "none";
+    //   themePage.style.display = "grid";
+    //   errorMsg.textContent = "";
+    //   showName(username);
+    //   // clearFields();
+    //   const userImage = data.image; // returned from backend
+    //   localStorage.setItem("profileImage", userImage);
+    //   localStorage.setItem("username", data.username);
+    //   const savedImage = localStorage.getItem("profileImage");
+      
+    //   if (savedImage) {
+    //     document.querySelectorAll(".userAvatar").forEach(img => {
+    //         img.src = savedImage;
+    //     });
+    //   }
+
+    // }
     if (res.ok) {
-      console.log("Login successful");
-      loginPage.style.display = "none";
-      themePage.style.display = "grid";
-      errorMsg.textContent = "";
-      showName(username);
-      // clearFields();
-      const userImage = data.image; // returned from backend
-      localStorage.setItem("profileImage", userImage);
-      localStorage.setItem("username", data.username);
-      const savedImage = localStorage.getItem("profileImage");
-if (savedImage) {
+  console.log("Login successful");
+  loginPage.style.display = "none";
+  themePage.style.display = "grid";
+  errorMsg.textContent = "";
+  showName(username);
+
+  localStorage.setItem("username", data.user.username);
+
+  // Update scoreVal with current score from DB
+  fetch(`${BASE_URL}get-score/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        scoreVal.textContent = data.score; // update span
+      } else {
+        console.log("Error fetching score:", data.message);
+        scoreVal.textContent = 0;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      scoreVal.textContent = 0;
+    });
+
+  // set user avatar
+  const userImage = data.user.profilePic;
+  localStorage.setItem("profileImage", userImage);
+  const savedImage = localStorage.getItem("profileImage");
+  
+  if (savedImage) {
     document.querySelectorAll(".userAvatar").forEach(img => {
         img.src = savedImage;
     });
+  }
 }
-
-    } else {
+ else {
       errorMsg.textContent = data.error;
     }
 
@@ -233,14 +276,14 @@ regBtn.addEventListener("click", async (event) => {
 // });
 
 const imgUploader = document.getElementById('imgUploader');
-const avatorImg = document.getElementById('avatorImg');
+const avatarImg = document.getElementById('avatarImg');
 
 imgUploader.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            avatorImg.src = e.target.result; // show selected image
+            avatarImg.src = e.target.result; // show selected image
         }
         reader.readAsDataURL(file);
     }
@@ -264,7 +307,9 @@ btnNo.addEventListener('click', () =>{
 btnTh1.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_1");
 
-  const loader = document.querySelector('.loader');
+  result.textContent = "Find Banana!";
+
+  // const loader = document.querySelector('.loader');
   const bananaImg = document.getElementById("bananaImg");
 
   /////Show loader/////
@@ -290,6 +335,11 @@ btnTh1.addEventListener('click', async () => {
         loader.style.display = "none";
       };
 
+      // Delay loading image by 2 seconds
+      setTimeout(() => {
+        carrotImg.src = img;
+      }, 2000);
+
       bananaImg.src = img;
     } else {
       loader.style.display = "none";
@@ -302,18 +352,17 @@ btnTh1.addEventListener('click', async () => {
   }
 });
 
-
 btnTh2.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_2");
 
-  const loader = document.querySelector('.loader');
-  const gameImg = document.getElementsByClassName("gameImg");
+  // const loader = document.querySelector('.loader');
+  const carrotImg = document.getElementById("carrotImg");
 
   /////Show loader/////
   loader.style.display = "block";
 
   try {
-    const res = await fetch("http://localhost:3000/api/banana", {
+    const res = await fetch("http://localhost:3000/api/game_images?type=carrot", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -328,11 +377,11 @@ btnTh2.addEventListener('click', async () => {
 
       const correctAnswer = localStorage.getItem("bananaAnswer");
 
-      gameImg.onload = () => {
+      carrotImg.onload = () => {
         loader.style.display = "none";
       };
 
-      carrot.src = img;
+      carrotImg.src = img;
     } else {
       loader.style.display = "none";
       console.error("Failed to fetch image");
@@ -342,8 +391,8 @@ btnTh2.addEventListener('click', async () => {
     loader.style.display = "none";
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
-
 });
+
 
 btnTh3.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_3");
@@ -429,6 +478,30 @@ answerButtons.forEach(btn => {
       result.classList.add("pop");
 
       playAgain.style.display = "block";
+
+
+      console.log("Username passing by f.e:",userName.textContent);
+
+      // Increase score in DB
+      fetch("http://localhost:3000/api/update-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: userName.textContent })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          console.log("Score updated! New score:", data.updatedScore);
+          //update the UI score
+          scoreVal.textContent = data.updatedScore;
+          updateScore(data.updateScore);
+        } else {
+          console.log("Error:", data.message);
+        }
+      })
+      .catch(err => console.error(err));
+
+
     } else {
       result.textContent = "Try Again!";
       result.style.color = "red";
@@ -490,6 +563,7 @@ playAgain.addEventListener('click', async () => {
 //   }
 
 // });
+
 
 
 

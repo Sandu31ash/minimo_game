@@ -46,7 +46,7 @@
         <button id="btnBackReg" class="back-btn btn">← Back</button>
         <h2>Register</h2>
         <div id="avatarContainer">
-          <img src="assets/images/avator.png" alt="Avatar" id="avatorImg">
+          <img src="assets/images/avator.png" alt="Avatar" id="avatarImg">
           <label for="imgUploader" id="uploadIcon">
             <i class="fa fa-camera"></i>
           </label>
@@ -86,22 +86,22 @@
       <button class="btnTheme bigBtn">BANANA</button>
     </div>
 
-    <div class="themeCard" id="btnTh2">
+    <div class="themeCard fourThemes" id="btnTh2">
       <img src="assets/images/carrot_theme_card.png" class="themeImg" id="themeImg2">
       <button class="btnTheme">CARROT</button>
     </div>
 
-    <div class="themeCard" id="btnTh3">
+    <div class="themeCard fourThemes" id="btnTh3">
       <img src="assets/images/acorn_theme_card.png" class="themeImg" id="themeImg3">
       <button class="btnTheme">ACORN</button>
     </div>
 
-    <div class="themeCard" id="btnTh4">
+    <div class="themeCard fourThemes" id="btnTh4">
       <img src="assets/images/clover_theme_card.png" class="themeImg" id="themeImg4">
       <button class="btnTheme">CLOVER</button>
     </div>
 
-    <div class="themeCard" id="btnTh5">
+    <div class="themeCard fourThemes" id="btnTh5">
       <img src="assets/images/pawpsicle_theme_card.png" class="themeImg" id="themeImg5">
       <button class="btnTheme">PAWPSICLE</button>
     </div>
@@ -155,13 +155,18 @@
           <span id="result1" class="result">Find Banana!</span>
           <button id="playAgain1" style="display: none;" class="playAgain">Play Again?</button>
         </div>
+
+        <div class="divScore">
+          <span class="scoreTitle">Score :</span>
+          <span class="scoreVal" id="scoreVal">0</span>
+        </div>
     </div>
 
     <div id="themePage2" class="screen" style="display: none;">
         <button id="btnBackTh2" class="btn btnBackInTh">Back</button>
         <img id="carrotImg" class="gameImg" src=""/>
 
-        <div id="bananaLoader2" class="loader"></div>
+        <div id="bananaLoader3" class="loader"></div>
         <div id="ansDiv2" class="ansDiv">
           <span id="ansTopic2" class="ansTopic">Answer :</span>
           <div id="divAnsBtn2" class="divAnsBtn">
