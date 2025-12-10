@@ -23,13 +23,14 @@ const errorMsgReg = document.getElementById('errorMsgReg');
 const regUsername = document.getElementById('regUsername');
 const btnLoginPage = document.getElementById('btnLoginPage');
 // const bananaInput = document.getElementById('bananaInput');
-const result = document.getElementById('result');
-const playAgain = document.getElementById('playAgain');
+// const result = document.getElementById('result');
+// const playAgain = document.getElementById('playAgain');
 const bananaInput = document.getElementsByClassName("ansBtn");
 // const ans0 = document.getElementById("ans0");
 const loginPage = document.getElementById('loginPage');
 const themePage = document.getElementById('themePage');
-
+const logoutPopup = document.getElementById('logoutPopup');
+const popBtnLogout = document.getElementById('popBtnLogout');
 
 const BASE_URL = "http://localhost:3000/api/";
 
@@ -235,24 +236,35 @@ const imgUploader = document.getElementById('imgUploader');
 const avatorImg = document.getElementById('avatorImg');
 
 imgUploader.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      avatorImg.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            avatorImg.src = e.target.result; // show selected image
+        }
+        reader.readAsDataURL(file);
+    }
 });
 
+
 btnLogout.addEventListener('click', () => {
+  // EventBus.emit("NAVIGATE_LOGIN");
+  logoutPopup.style.display = "block";
+});
+
+popBtnLogout.addEventListener('click', () =>{
   EventBus.emit("NAVIGATE_LOGIN");
+  logoutPopup.style.display = "none";
+});
+
+btnNo.addEventListener('click', () =>{
+  logoutPopup.style.display = "none";
 });
 
 btnTh1.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_1");
 
-  const loader = document.querySelector('.loader'); // your loader element
+  const loader = document.querySelector('.loader');
   const bananaImg = document.getElementById("bananaImg");
 
   /////Show loader/////
@@ -291,8 +303,46 @@ btnTh1.addEventListener('click', async () => {
 });
 
 
-btnTh2.addEventListener('click', () => {
+btnTh2.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_2");
+
+  const loader = document.querySelector('.loader');
+  const gameImg = document.getElementsByClassName("gameImg");
+
+  /////Show loader/////
+  loader.style.display = "block";
+
+  try {
+    const res = await fetch("http://localhost:3000/api/banana", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const img = data.image;
+      const ans = data.answer;
+
+      localStorage.setItem("bananaAnswer", ans);
+
+      const correctAnswer = localStorage.getItem("bananaAnswer");
+
+      gameImg.onload = () => {
+        loader.style.display = "none";
+      };
+
+      carrot.src = img;
+    } else {
+      loader.style.display = "none";
+      console.error("Failed to fetch image");
+    }
+
+  } catch (err) {
+    loader.style.display = "none";
+    errorMsgReg.textContent = "Network error. Backend not running.";
+  }
+
 });
 
 btnTh3.addEventListener('click', () => {
@@ -360,34 +410,38 @@ btnBackTh5.addEventListener('click', () => {
 // });
 
 const answerButtons = document.querySelectorAll(".ansBtn");
-// const result = document.getElementById("result");
-// const playAgain = document.getElementById("playAgain");
+const result = document.getElementById("result1");
+const playAgain = document.getElementById("playAgain1");
 
 answerButtons.forEach(btn => {
   btn.addEventListener("click", () => {
-    const value = parseInt(btn.textContent); 
+    const value = parseInt(btn.textContent);
     const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
 
     console.log("Button clicked:", value);
 
     if (value === correctAnswer) {
       result.textContent = "You won!";
-      result.style.color = "White";
-      result.classList.remove("pop"); 
-  void result.offsetWidth;      
-  result.classList.add("pop");     
-  playAgain.style.display = "block";
-    } else {
-  result.textContent = "Try Again!";
-  result.style.color = "Red";
-  result.classList.remove("pop"); 
-  void result.offsetWidth;      
-  result.classList.add("pop");     
-  playAgain.style.display = "none";
-}
+      result.style.color = "white";
+      result.classList.remove("pop");
 
+      void result.offsetWidth;
+      result.classList.add("pop");
+
+      playAgain.style.display = "block";
+    } else {
+      result.textContent = "Try Again!";
+      result.style.color = "red";
+      result.classList.remove("pop");
+
+      void result.offsetWidth;
+      result.classList.add("pop");
+
+      playAgain.style.display = "none";
+    }
   });
 });
+
 
 playAgain.addEventListener('click', async () => {
 

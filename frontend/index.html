@@ -14,7 +14,7 @@
     <div id="soundToggle">
       <i class="fa-solid fa-volume-high"></i>
     </div>
-    <audio id="bgMusic" src="assets/sounds/minimo.mp3" loop autoplay></audio>
+    <!-- <audio id="bgMusic" src="assets/sounds/minimo.mp3" loop autoplay></audio> -->
 
     <div id="mainPage" class="screen">
         <!-- <h1 id="h1">Welcome to Minimo!</h1> -->
@@ -109,13 +109,28 @@
   </div>
 </div>
 
+<!-- /////////////////////////////Logout popup////////////////////////// -->
+
+<div id="logoutPopup" style="display: none;">
+  <div class="popup-content">
+    <h2>Are you sure you want to log out?</h2>
+
+    <div class="popup-buttons">
+      <button id="btnNo" class="popBtn no">No</button>
+      <button id="popBtnLogout" class="popBtn popLogout">Logout</button>
+    </div>
+  </div>
+</div>
+
+
+
 <!-- ///////////////////Theme page1////////////////////////////////// -->
 
     <div id="themePage1" class="screen" style="display: none;">
         <button id="btnBackTh1" class="btn btnBackInTh">Back</button>
         <!-- <button id="btnTimeTh1" class="btn" style="display: none;">Time</button> -->
 
-        <!-- <img id="bananaImg" src=""/> -->
+        <img id="bananaImg" class="gameImg" src=""/>
         <div id="bananaLoader" class="loader"></div>
         <!-- <div id="ansDiv">
           <span id="ansTopic">Answer :</span>
@@ -144,40 +159,101 @@
 
     <div id="themePage2" class="screen" style="display: none;">
         <button id="btnBackTh2" class="btn btnBackInTh">Back</button>
+        <img id="carrotImg" class="gameImg" src=""/>
 
-        <div id="bananaLoader" class="loader"></div>
+        <div id="bananaLoader2" class="loader"></div>
         <div id="ansDiv2" class="ansDiv">
           <span id="ansTopic2" class="ansTopic">Answer :</span>
           <div id="divAnsBtn2" class="divAnsBtn">
-            <button id="ans02" class="ansBtn">0</button>
-            <button id="ans12" class="ansBtn">1</button>
-            <button id="ans22" class="ansBtn">2</button>
-            <button id="ans32" class="ansBtn">3</button>
-            <button id="ans42" class="ansBtn">4</button>
-            <button id="ans52" class="ansBtn">5</button>
-            <button id="ans62" class="ansBtn">6</button>
-            <button id="ans72" class="ansBtn">7</button>
-            <button id="ans82" class="ansBtn">8</button>
-            <button id="ans92" class="ansBtn">9</button>
+            <button id="ans0C" class="ansBtn">0</button>
+            <button id="ans1C" class="ansBtn">1</button>
+            <button id="ans2C" class="ansBtn">2</button>
+            <button id="ans3C" class="ansBtn">3</button>
+            <button id="ans4C" class="ansBtn">4</button>
+            <button id="ans5C" class="ansBtn">5</button>
+            <button id="ans6C" class="ansBtn">6</button>
+            <button id="ans7C" class="ansBtn">7</button>
+            <button id="ans8C" class="ansBtn">8</button>
+            <button id="ans9C" class="ansBtn">9</button>
           </div>
-          <span id="result2" class="result">Find Banana!</span>
+          <span id="result2" class="result">Find Carrot!</span>
           <button id="playAgain2" style="display: none;" class="playAgain">Play Again?</button>
         </div>
     </div>
 
     <div id="themePage3" class="screen" style="display: none;">
         <button id="btnBackTh3" class="btn btnBackInTh">Back</button>
-        <!-- <button id="btnTimeTh3" class="btn">Time</button> -->
+
+        <img id="acornImg" class="gameImg" src=""/>
+
+        <div id="bananaLoader3" class="loader"></div>
+        <div id="ansDiv3" class="ansDiv">
+          <span id="ansTopic3" class="ansTopic">Answer :</span>
+          <div id="divAnsBtn3" class="divAnsBtn">
+            <button id="ans0A" class="ansBtn">0</button>
+            <button id="ans1A" class="ansBtn">1</button>
+            <button id="ans2A" class="ansBtn">2</button>
+            <button id="ans3A" class="ansBtn">3</button>
+            <button id="ans4A" class="ansBtn">4</button>
+            <button id="ans5A" class="ansBtn">5</button>
+            <button id="ans6A" class="ansBtn">6</button>
+            <button id="ans7A" class="ansBtn">7</button>
+            <button id="ans8A" class="ansBtn">8</button>
+            <button id="ans9A" class="ansBtn">9</button>
+          </div>
+          <span id="result3" class="result">Find Acorn!</span>
+          <button id="playAgain3" style="display: none;" class="playAgain">Play Again?</button>
+        </div>
     </div>
 
     <div id="themePage4" class="screen" style="display: none;">
         <button id="btnBackTh4" class="btn btnBackInTh">Back</button>
-        <!-- <button id="btnTimeTh4" class="btn">Time</button> -->
+
+        <img id="cloverImg" class="gameImg" src=""/>
+
+        <div id="bananaLoader4" class="loader"></div>
+        <div id="ansDiv4" class="ansDiv">
+          <span id="ansTopic4" class="ansTopic">Answer :</span>
+          <div id="divAnsBtn4" class="divAnsBtn">
+            <button id="ans0CL" class="ansBtn">0</button>
+            <button id="ans1CL" class="ansBtn">1</button>
+            <button id="ans2CL" class="ansBtn">2</button>
+            <button id="ans3CL" class="ansBtn">3</button>
+            <button id="ans4CL" class="ansBtn">4</button>
+            <button id="ans5CL" class="ansBtn">5</button>
+            <button id="ans6CL" class="ansBtn">6</button>
+            <button id="ans7CL" class="ansBtn">7</button>
+            <button id="ans8CL" class="ansBtn">8</button>
+            <button id="ans9CL" class="ansBtn">9</button>
+          </div>
+          <span id="result4" class="result">Find Clover!</span>
+          <button id="playAgain4" style="display: none;" class="playAgain">Play Again?</button>
+        </div>
     </div>
 
     <div id="themePage5" class="screen" style="display: none;">
         <button id="btnBackTh5" class="btn btnBackInTh">Back</button>
-        <!-- <button id="btnTimeTh5" class="btn">Time</button> -->
+
+        <!-- <img id="pawpsicleImg" src=""/>
+
+        <div id="bananaLoader5" class="loader"></div>
+        <div id="ansDiv5" class="ansDiv">
+          <span id="ansTopicP" class="ansTopic">Answer :</span>
+          <div id="divAnsBtn5" class="divAnsBtn">
+            <button id="ans0P" class="ansBtn">0</button>
+            <button id="ans1P" class="ansBtn">1</button>
+            <button id="ans2P" class="ansBtn">2</button>
+            <button id="ans3P" class="ansBtn">3</button>
+            <button id="ans4P" class="ansBtn">4</button>
+            <button id="ans5P" class="ansBtn">5</button>
+            <button id="ans6P" class="ansBtn">6</button>
+            <button id="ans7P" class="ansBtn">7</button>
+            <button id="ans8P" class="ansBtn">8</button>
+            <button id="ans9P" class="ansBtn">9</button>
+          </div>
+          <span id="result5" class="result">Find Pawpsicle!</span>
+          <button id="playAgain5" style="display: none;" class="playAgain">Play Again?</button>
+        </div> -->
     </div>
     
     <script type="module" src="assets/js/script.js"></script>

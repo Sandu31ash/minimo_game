@@ -510,6 +510,80 @@ p {
   margin-left: 18vw;
 }
 
+#logoutPopup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  align-content: center;
+  /* left: 10vw; */
+
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+#logoutPopup .popup-content {
+  background: #ffffff;
+  width: 350px;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  margin-left: 37vw;
+
+
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.25s ease;
+}
+
+#logoutPopup .popup-content h2 {
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.popup-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.popBtn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s ease;
+}
+
+.popBtn.no {
+  background: #ffff58;
+}
+
+.popBtn.no:hover {
+  background: rgb(244, 244, 152);
+}
+
+.popBtn.popLogout {
+  background: #ff4a4a;
+  color: white;
+}
+
+.popBtn.popLogout:hover {
+  background: #e63a3a;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
 .userInfo {
   display: flex;
   flex-direction: column;
@@ -632,7 +706,7 @@ p {
     opacity: 0;
 }
 
-#bananaImg{
+.gameImg{
   width: 45%;
   position: absolute;
   margin: auto;
@@ -800,6 +874,29 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
   background-color: #ffca8d;
 }
 
+#ansDiv3{
+  background-color: #C3875A;
+}
+
+#divAnsBtn3 button{
+  background-color: #E6C6B3;
+}
+
+#ansDiv4{
+  background-color: #587931;
+}
+
+#divAnsBtn4 button{
+  background-color: #F2FE78;
+}
+
+#ansDiv5{
+  background-color: #DB4D6D;
+}
+
+#divAnsBtn5 button{
+  background-color: #FFC6CD;
+}
 
 /* //////////////////////////////////// */
 

@@ -115,7 +115,7 @@ app.post("/api/register", upload.single("avatar"), async (req, res) => {
 // });
 
 
-//////Login API (Fixed)//////
+//////Login API//////
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -128,11 +128,9 @@ app.post("/api/login", (req, res) => {
     if (!match)
       return res.status(400).json({ error: "Incorrect password" });
 
-    // Use correct column name: avatar
-    // The DB already contains "/uploads/filename.png"
     const avatarPath = user.avatar; 
 
-    // Build full accessible URL
+    //full accessible URL
     const profilePicUrl = avatarPath
       ? `http://localhost:3000${avatarPath}`
       : null;
