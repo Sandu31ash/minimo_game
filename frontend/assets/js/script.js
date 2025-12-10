@@ -33,8 +33,8 @@ const themePage = document.getElementById('themePage');
 const logoutPopup = document.getElementById('logoutPopup');
 const popBtnLogout = document.getElementById('popBtnLogout');
 const userName = document.getElementById('showUsername');
-const scoreVal = document.getElementById('scoreVal');
-const loader = document.querySelector('.loader');
+const scoreVal = document.querySelector('.scoreVal');
+// const loader = document.querySelector('.loader');
 
 const BASE_URL = "http://localhost:3000/api/";
 
@@ -136,7 +136,10 @@ login.addEventListener("click", async () => {
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        scoreVal.textContent = data.score; // update span
+        document.querySelectorAll(".scoreVal").forEach(scoreVal => {
+          scoreVal.textContent = data.score; // update span
+          console.log("score value:",data.score);
+        });
       } else {
         console.log("Error fetching score:", data.message);
         scoreVal.textContent = 0;
@@ -308,8 +311,9 @@ btnTh1.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_1");
 
   result.textContent = "Find Banana!";
+  result.style.color = "White";
 
-  // const loader = document.querySelector('.loader');
+  const loader = document.querySelector('.loader');
   const bananaImg = document.getElementById("bananaImg");
 
   /////Show loader/////
@@ -335,11 +339,6 @@ btnTh1.addEventListener('click', async () => {
         loader.style.display = "none";
       };
 
-      // Delay loading image by 2 seconds
-      setTimeout(() => {
-        carrotImg.src = img;
-      }, 2000);
-
       bananaImg.src = img;
     } else {
       loader.style.display = "none";
@@ -355,7 +354,10 @@ btnTh1.addEventListener('click', async () => {
 btnTh2.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_2");
 
-  // const loader = document.querySelector('.loader');
+  result.textContent = "Find Carrot!";
+  result.style.color = "White";
+
+  const loader = document.querySelector('.loader');
   const carrotImg = document.getElementById("carrotImg");
 
   /////Show loader/////
