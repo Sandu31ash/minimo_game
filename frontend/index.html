@@ -31,7 +31,11 @@
         <button id="btnBack" class="back-btn btn">← Back</button>
         <h2 class="topics">Login</h2>
         <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
+        <div class="password-wrapper">
+  <input type="password" id="password" placeholder="Password">
+  <i id="toggleLoginPassword" class="fa fa-eye eyeIcon"></i>
+</div>
+
         <p id="errorMsg" class="error-msg"></p>
         <button id="login" class="login-btn btn">Login</button>
         <div id="regPageDiv">
@@ -54,7 +58,12 @@
         </div>
 
         <input type="text" id="regUsername" placeholder="New Username">
-        <input type="password" id="regPassword" placeholder="New Password">
+        <div class="password-wrapper">
+  <input type="password" id="regPassword" placeholder="New Password">
+  <i id="togglePassword" class="fa fa-eye eyeIcon"></i>
+</div>
+
+
         <p id="errorMsgReg" class="error-msg"></p>
         <button id="regBtn">Register</button>
         <div id="loginPageDiv">

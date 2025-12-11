@@ -79,6 +79,18 @@ btnLoginPage.addEventListener('click', () =>{
   EventBus.emit("NAVIGATE_LOGIN");
 });
 
+const toggleLoginPassword = document.getElementById("toggleLoginPassword");
+const loginPassword = document.getElementById("password");
+
+toggleLoginPassword.addEventListener("click", () => {
+  const isPassword = loginPassword.getAttribute("type") === "password";
+  
+  loginPassword.setAttribute("type", isPassword ? "text" : "password");
+
+  // Toggle eye / eye-slash icon
+  toggleLoginPassword.classList.toggle("fa-eye");
+  toggleLoginPassword.classList.toggle("fa-eye-slash");
+});
 
 
 /////////////Login//////////////////////////
@@ -172,25 +184,49 @@ function getUsername(username){
 //   scoreVal.textContent = updatedScore;
 // }
 
+const togglePassword = document.getElementById("togglePassword");
+const regPassword = document.getElementById("regPassword");
+
+togglePassword.addEventListener("click", () => {
+  const isPassword = regPassword.getAttribute("type") === "password";
+
+  regPassword.setAttribute("type", isPassword ? "text" : "password");
+
+  // Toggle between eye and eye-slash
+  togglePassword.classList.toggle("fa-eye");
+  togglePassword.classList.toggle("fa-eye-slash");
+});
 
 
 
-///////////Register/////////////
+/////////////Register/////////////
 
 regBtn.addEventListener("click", async (event) => {
-  
   event.preventDefault();
 
   const username = document.getElementById("regUsername").value.trim();
   const password = document.getElementById("regPassword").value.trim();
   const imgUploader = document.getElementById("imgUploader");
 
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  // Empty field check
   if (!username || !password) {
     errorMsgReg.textContent = "Username and password cannot be empty!";
     errorMsgReg.style.color = "red";
     return;
   }
 
+  // Password format check
+  if (!passwordRegex.test(password)) {
+    errorMsgReg.textContent =
+      "Password must be 8+ characters with uppercase, lowercase, number & special character.";
+    errorMsgReg.style.color = "red";
+    errorMsgReg.style.fontSize = "10px";
+    return;
+  }
+
+  // Avatar check
   if (!imgUploader.files || imgUploader.files.length === 0) {
     errorMsgReg.textContent = "Please upload an avatar image!";
     errorMsgReg.style.color = "red";
@@ -200,7 +236,7 @@ regBtn.addEventListener("click", async (event) => {
   const formData = new FormData();
   formData.append("username", username);
   formData.append("password", password);
-  formData.append("avatar", imgUploader.files[0]); // send actual file!
+  formData.append("avatar", imgUploader.files[0]);
 
   try {
     const res = await fetch("http://localhost:3000/api/register", {
@@ -214,12 +250,10 @@ regBtn.addEventListener("click", async (event) => {
       errorMsgReg.style.color = "green";
       errorMsgReg.textContent = "Registration successful!";
       imgUploader.value = "";
-      // loginPage.style.display = "block";
-      
+
       setTimeout(() => {
         errorMsgReg.textContent = "";
       }, 3000);
-
     } else {
       errorMsgReg.style.color = "red";
       errorMsgReg.textContent = data.error;
@@ -228,6 +262,7 @@ regBtn.addEventListener("click", async (event) => {
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
 });
+
 
 
 const imgUploader = document.getElementById('imgUploader');
