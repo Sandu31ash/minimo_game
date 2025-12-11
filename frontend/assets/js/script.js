@@ -33,7 +33,7 @@ const themePage = document.getElementById('themePage');
 const logoutPopup = document.getElementById('logoutPopup');
 const popBtnLogout = document.getElementById('popBtnLogout');
 const userName = document.getElementById('showUsername');
-const scoreVal = document.querySelector('.scoreVal');
+// const scoreVal = document.querySelector('.scoreVal');
 // const loader = document.querySelector('.loader');
 
 const BASE_URL = "http://localhost:3000/api/";
@@ -102,72 +102,53 @@ login.addEventListener("click", async () => {
 
     const data = await res.json();
 
-    // if (res.ok) {
-    //   console.log("Login successful");
-    //   // console.log("Avatar URL :",profilePicUrl);
-    //   loginPage.style.display = "none";
-    //   themePage.style.display = "grid";
-    //   errorMsg.textContent = "";
-    //   showName(username);
-    //   // clearFields();
-    //   const userImage = data.image; // returned from backend
-    //   localStorage.setItem("profileImage", userImage);
-    //   localStorage.setItem("username", data.username);
-    //   const savedImage = localStorage.getItem("profileImage");
-      
-    //   if (savedImage) {
-    //     document.querySelectorAll(".userAvatar").forEach(img => {
-    //         img.src = savedImage;
-    //     });
-    //   }
-
-    // }
     if (res.ok) {
-  console.log("Login successful");
-  loginPage.style.display = "none";
-  themePage.style.display = "grid";
-  errorMsg.textContent = "";
-  showName(username);
+      console.log("Login successful");
+      loginPage.style.display = "none";
+      themePage.style.display = "grid";
+      errorMsg.textContent = "";
+      showName(username);
+      getUsername(username);
 
-  localStorage.setItem("username", data.user.username);
+      localStorage.setItem("username", data.user.username);
 
-  // Update scoreVal with current score from DB
-  fetch(`${BASE_URL}get-score/${username}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.querySelectorAll(".scoreVal").forEach(scoreVal => {
-          scoreVal.textContent = data.score; // update span
-          console.log("score value:",data.score);
+      // Update scoreVal with current score from DB
+      fetch(`${BASE_URL}get-score/${username}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            document.querySelectorAll(".scoreVal").forEach(scoreVal => {
+              scoreVal.textContent = data.score; // update span
+              console.log("score value:",data.score);
+            });
+          } else {
+            console.log("Error fetching score:", data.message);
+            scoreVal.textContent = 0;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          scoreVal.textContent = 0;
         });
-      } else {
-        console.log("Error fetching score:", data.message);
-        scoreVal.textContent = 0;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      scoreVal.textContent = 0;
-    });
 
-  // set user avatar
-  const userImage = data.user.profilePic;
-  localStorage.setItem("profileImage", userImage);
-  const savedImage = localStorage.getItem("profileImage");
-  
-  if (savedImage) {
-    document.querySelectorAll(".userAvatar").forEach(img => {
-        img.src = savedImage;
-    });
-  }
-}
- else {
-      errorMsg.textContent = data.error;
+    // set user avatar
+    const userImage = data.user.profilePic;
+    localStorage.setItem("profileImage", userImage);
+    const savedImage = localStorage.getItem("profileImage");
+    
+    if (savedImage) {
+      document.querySelectorAll(".userAvatar").forEach(img => {
+          img.src = savedImage;
+      });
     }
-
-  } catch (err) {
-    errorMsg.textContent = "Network error. Backend not running.";
   }
+  else {
+        errorMsg.textContent = data.error;
+      }
+
+    } catch (err) {
+      errorMsg.textContent = "Network error. Backend not running.";
+    }
 });
 
 function showName(username){
@@ -179,6 +160,18 @@ function showName(username){
   showUsername.textContent = username;
 
 }
+
+function getUsername(username){
+  const sendUsername = username;
+  return sendUsername;
+}
+
+// const scoreVal = document.querySelector('.scoreVal');
+
+// function updateScore(updatedScore) {
+//   scoreVal.textContent = updatedScore;
+// }
+
 
 
 
@@ -237,47 +230,6 @@ regBtn.addEventListener("click", async (event) => {
 });
 
 
-
-// regBtn.addEventListener("click", async () => {
-//   const username = document.getElementById("regUsername").value.trim();
-//   const password = document.getElementById("regPassword").value.trim();
-//   const errorMsgReg = document.getElementById("errorMsgReg");
-//   const avator = document.getElementById("avatorImg");
-
-//  if(!avator){
-//     errorMsgReg.textContent = "Please upload an avator image!";
-//     return;
-//   }
-
-//   if (!username || !password) {
-//     errorMsgReg.textContent = "Username and password cannot be empty!";
-//     return;
-//   }
-
- 
-
-//   try {
-//     const res = await fetch("http://localhost:3000/api/register", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ username, password })
-//     });
-
-//     const data = await res.json();
-
-//     if (res.ok) {
-//       errorMsgReg.style.color = "green";
-//       errorMsgReg.textContent = "Registration successful! You can login now.";
-//     } else {
-//       errorMsgReg.style.color = "red";
-//       errorMsgReg.textContent = data.error;
-//     }
-
-//   } catch (err) {
-//     errorMsgReg.textContent = "Network error. Backend not running.";
-//   }
-// });
-
 const imgUploader = document.getElementById('imgUploader');
 const avatarImg = document.getElementById('avatarImg');
 
@@ -316,6 +268,28 @@ btnTh1.addEventListener('click', async () => {
   const loader = document.querySelector('.loader');
   const bananaImg = document.getElementById("bananaImg");
 
+  // Get username from localStorage
+  const username = localStorage.getItem("username");
+  console.log("Fetched username:", username);
+
+  // Fetch score from database
+  fetch(`${BASE_URL}get-score/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const scoreValB = document.getElementById("scoreVal");
+        scoreValB.textContent = data.score;
+        console.log("score value:", data.score);
+      } else {
+        console.log("Error fetching score:", data.message);
+        scoreValB.textContent = 0;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      scoreValB.textContent = 0;
+    });
+
   /////Show loader/////
   loader.style.display = "block";
 
@@ -351,53 +325,150 @@ btnTh1.addEventListener('click', async () => {
   }
 });
 
+
 btnTh2.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_2");
 
-  result.textContent = "Find Carrot!";
-  result.style.color = "White";
-
-  const loader = document.querySelector('.loader');
+  const loader2 = document.getElementById("bananaLoader2");
   const carrotImg = document.getElementById("carrotImg");
 
-  /////Show loader/////
-  loader.style.display = "block";
+  loader2.style.display = "block";
 
   try {
-    const res = await fetch("http://localhost:3000/api/game_images?type=carrot", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
+    const res = await fetch("http://localhost:3000/api/game_images?type=carrot");
     const data = await res.json();
 
     if (res.ok) {
-      const img = data.image;
-      const ans = data.answer;
 
-      localStorage.setItem("bananaAnswer", ans);
+      const imgLoadPromise = new Promise(resolve => {
+        carrotImg.onload = () => resolve();
+      });
 
-      const correctAnswer = localStorage.getItem("bananaAnswer");
+      //delay for loader
+      setTimeout(() => {
+        carrotImg.src = data.image; 
+      }, 1000);
 
-      carrotImg.onload = () => {
-        loader.style.display = "none";
-      };
+      // Wait until loaded
+      await imgLoadPromise;
 
-      carrotImg.src = img;
-    } else {
-      loader.style.display = "none";
-      console.error("Failed to fetch image");
+      loader2.style.display = "none";
+
+      localStorage.setItem("bananaAnswer", data.answer);
     }
 
   } catch (err) {
-    loader.style.display = "none";
-    errorMsgReg.textContent = "Network error. Backend not running.";
+    loader2.style.display = "none";
+    console.error(err);
   }
 });
 
 
-btnTh3.addEventListener('click', () => {
+
+
+
+// btnTh2.addEventListener('click', async () => {
+//   EventBus.emit("NAVIGATE_THEME_2");
+
+//   result.textContent = "Find Carrot!";
+//   result.style.color = "White";
+
+//   const loader2 = document.getElementById("bananaLoader2");
+//   const carrotImg = document.getElementById("carrotImg");
+
+//   // Update scoreVal with current score from DB
+//       const username = getUsername();
+//       console.log(username);
+//       console.log("looking for username");
+//       fetch(`${BASE_URL}get-score/${username}`)
+//         .then(res => res.json())
+//         .then(data => {
+//           if (data.success) {
+//             document.getElementById(".scoreValC");
+//               scoreValC.textContent = data.score; // update span
+//               console.log("score value:",data.score);
+//           } else {
+//             console.log("Error fetching score:", data.message);
+//             scoreValC.textContent = 0;
+//           }
+//         })
+//         .catch(err => {
+//           console.error(err);
+//           scoreValC.textContent = 0;
+//         });
+
+//   /////Show loader/////
+//   loader2.style.display = "block";
+
+//   try {
+//     const res = await fetch("http://localhost:3000/api/game_images?type=carrot", {
+//       method: "GET",
+//       headers: { "Content-Type": "application/json" },
+//     });
+
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       const img = data.image;
+//       const ans = data.answer;
+
+//       localStorage.setItem("bananaAnswer", ans);
+
+//       const correctAnswer = localStorage.getItem("bananaAnswer");
+//       // console.log("Correct answer:",correctAnswer);
+
+//       carrotImg.onload = () => {
+//         loader2.style.display = "none";
+//       };
+
+//       carrotImg.src = img;
+//     } else {
+//       loader2.style.display = "none";
+//       console.error("Failed to fetch image");
+//     }
+
+//   } catch (err) {
+//     loader2.style.display = "none";
+//     errorMsgReg.textContent = "Network error. Backend not running.";
+//   }
+// });
+
+
+btnTh3.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_3");
+
+  const loader3 = document.getElementById("bananaLoader2");
+  const cloverImg = document.getElementById("cloverImg");
+
+  loader3.style.display = "block"; 
+
+  try {
+    const res = await fetch("http://localhost:3000/api/game_images?type=carrot");
+    const data = await res.json();
+
+    if (res.ok) {
+
+      const imgLoadPromise = new Promise(resolve => {
+        carrotImg.onload = () => resolve();
+      });
+
+      //delay for loader
+      setTimeout(() => {
+        carrotImg.src = data.image; 
+      }, 1000);
+
+      // Wait until loaded
+      await imgLoadPromise;
+
+      loader2.style.display = "none";
+
+      localStorage.setItem("bananaAnswer", data.answer);
+    }
+
+  } catch (err) {
+    loader2.style.display = "none";
+    console.error(err);
+  }
 });
 
 btnTh4.addEventListener('click', () => {
@@ -410,10 +481,12 @@ btnTh5.addEventListener('click', () => {
 
 btnBackTh1.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+  playAgain.style.display = "none";
 });
 
 btnBackTh2.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
+  playAgain2.style.display = "none";
 });
 
 btnBackTh3.addEventListener('click', () => {
@@ -470,6 +543,7 @@ answerButtons.forEach(btn => {
     const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
 
     console.log("Button clicked:", value);
+    console.log("Correct answer is",correctAnswer);
 
     if (value === correctAnswer) {
       result.textContent = "You won!";
@@ -495,8 +569,9 @@ answerButtons.forEach(btn => {
         if (data.success) {
           console.log("Score updated! New score:", data.updatedScore);
           //update the UI score
+          const scoreVal = document.getElementById("scoreVal");
           scoreVal.textContent = data.updatedScore;
-          updateScore(data.updateScore);
+          // updateScore(data.updateScore);
         } else {
           console.log("Error:", data.message);
         }
@@ -516,7 +591,6 @@ answerButtons.forEach(btn => {
     }
   });
 });
-
 
 playAgain.addEventListener('click', async () => {
 
@@ -553,21 +627,114 @@ playAgain.addEventListener('click', async () => {
   }
 });
 
+//////////////////Answer buttons in carrot theme///////////////////////
+
+const answerButtonsC = document.querySelectorAll(".ansBtnC");
+const result2 = document.getElementById("result2");
+const playAgain2 = document.getElementById("playAgain2");
+
+answerButtonsC.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = parseInt(btn.textContent);
+    const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
+
+    console.log("Button clicked:", value);
+    console.log("Correct answer is",correctAnswer);
+
+    if (value === correctAnswer) {
+      result2.textContent = "You won!";
+      result2.style.color = "white";
+      result2.classList.remove("pop");
+
+      void result2.offsetWidth;
+      result2.classList.add("pop");
+
+      playAgain2.style.display = "block";
+      playAgain2.style.backgroundColor = "#FFCA8D";
+
+      console.log("Username passing by f.e:",userName.textContent);
+
+      // Increase score in DB
+      fetch("http://localhost:3000/api/update-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: userName.textContent })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          console.log("Score updated! New score:", data.updatedScore);
+          //update the UI score
+          const scoreValC = document.getElementById("scoreValC");
+          scoreValC.textContent = data.updatedScore;
+          // updateScore(data.updateScore);
+        } else {
+          console.log("Error:", data.message);
+        }
+      })
+      .catch(err => console.error(err));
 
 
+    } else {
+      result2.textContent = "Try Again!";
+      result2.style.color = "red";
+      result2.classList.remove("pop");
 
-// bananaInput.addEventListener("input", () => {
-  
-//   bananaInput.value = bananaInput.value.replace(/[^0-9]/g, "");
+      void result2.offsetWidth;
+      result2.classList.add("pop");
 
-//   if(parseInt(bananaInput.value)>9){
-//     result.value = "Invalid input!";
-//   }
+      playAgain2.style.display = "none";
+    }
+  });
+});
 
-// });
+////////////////play again in carrot theme/////////////////////
 
+playAgain2.addEventListener('click', async () => {
 
+  EventBus.emit("NAVIGATE_THEME_2");
 
+  result.textContent = "Find Carrot!";
+  result.style.color = "White";
+
+  const loader2 = document.getElementById("bananaLoader2");
+  const carrotImg = document.getElementById("carrotImg");
+
+  /////Show loader/////
+  loader2.style.display = "block";
+
+  try {
+    const res = await fetch("http://localhost:3000/api/game_images?type=carrot", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const img = data.image;
+      const ans = data.answer;
+
+      localStorage.setItem("bananaAnswer", ans);
+
+      const correctAnswer = localStorage.getItem("bananaAnswer");
+      // console.log("Correct answer:",correctAnswer);
+
+      carrotImg.onload = () => {
+        loader2.style.display = "none";
+      };
+
+      carrotImg.src = img;
+    } else {
+      loader2.style.display = "none";
+      console.error("Failed to fetch image");
+    }
+
+  } catch (err) {
+    loader2.style.display = "none";
+    errorMsgReg.textContent = "Network error. Backend not running.";
+  }
+});
 
 
 

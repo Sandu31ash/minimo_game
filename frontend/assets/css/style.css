@@ -810,6 +810,10 @@ p {
   color: white;
 }
 
+#divScoreC{
+  background-color: #FF8700;
+}
+
 .ansDiv{
   background-color: #F8DD5A;
   width: 45%;
@@ -922,6 +926,26 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
 }
 
 /* //////////////////////////////////// */
+
+#bananaLoader2{
+  border-top: 5px solid #ff9900;
+  border-left: 5px solid #ffdca3;
+}
+
+#bananaLoader3{
+  border-top: 5px solid #583924;
+  border-left: 5px solid #be9275;
+}
+
+#bananaLoader4{
+  border-top: 5px solid #587931;
+  border-left: 5px solid #c0ff77;
+}
+
+#bananaLoader5{
+  border-top: 5px solid #ef1d4e;
+  border-left: 5px solid #D74E6E;
+}
 
 .loader {
   width: 7.1vw;
