@@ -798,7 +798,7 @@ p {
   padding-left: 1vw;
   padding-right: 1vw;
   border-radius: 10px;
-  margin-left: 68.7vw;
+  margin-left: 68.2vw;
   margin-top: 20.4vh;
 }
 
@@ -812,6 +812,25 @@ p {
 
 #divScoreC{
   background-color: #FF8700;
+}
+
+#divScoreA{
+  background-color: #C3875A;
+  margin-top: 20.2vh;
+}
+
+#divScoreCL{
+  background-color: #587931;
+  margin-top: 20.2vh;
+  padding-top: 0.3vw;
+  padding-bottom: 0.3vw;
+}
+
+#divScoreP{
+  background-color: #DB4D6D;
+  margin-left: 68.2vw;
+  padding-top: 0.3vw;
+  padding-bottom: 0.3vw;
 }
 
 .ansDiv{
@@ -933,7 +952,7 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
 }
 
 #bananaLoader3{
-  border-top: 5px solid #583924;
+  border-top: 5px solid #a26e4b;
   border-left: 5px solid #be9275;
 }
 

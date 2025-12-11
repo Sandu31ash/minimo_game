@@ -332,6 +332,28 @@ btnTh2.addEventListener('click', async () => {
   const loader2 = document.getElementById("bananaLoader2");
   const carrotImg = document.getElementById("carrotImg");
 
+  // Get username from localStorage
+  const username = localStorage.getItem("username");
+  console.log("Fetched username:", username);
+
+  // Fetch score from database
+  fetch(`${BASE_URL}get-score/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const scoreValC = document.getElementById("scoreValC");
+        scoreValC.textContent = data.score;
+        console.log("score value:", data.score);
+      } else {
+        console.log("Error fetching score:", data.message);
+        scoreValC.textContent = 0;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      scoreValC.textContent = 0;
+    });
+
   loader2.style.display = "block";
 
   try {
@@ -437,47 +459,64 @@ btnTh2.addEventListener('click', async () => {
 btnTh3.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_3");
 
-  const loader3 = document.getElementById("bananaLoader2");
-  const cloverImg = document.getElementById("cloverImg");
+  const loader3 = document.getElementById("bananaLoader3");
+  const acornImg = document.getElementById("acornImg");
+
+  // Get username from localStorage
+  const username = localStorage.getItem("username");
+  console.log("Fetched username:", username);
+
+  // Fetch score from database
+  fetch(`${BASE_URL}get-score/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const scoreValA = document.getElementById("scoreValA");
+        scoreValA.textContent = data.score;
+        console.log("score value:", data.score);
+      } else {
+        console.log("Error fetching score:", data.message);
+        scoreValA.textContent = 0;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      scoreValA.textContent = 0;
+    });
+
 
   loader3.style.display = "block"; 
 
   try {
-    const res = await fetch("http://localhost:3000/api/game_images?type=carrot");
+    const res = await fetch("http://localhost:3000/api/game_images?type=acorn");
     const data = await res.json();
 
     if (res.ok) {
 
       const imgLoadPromise = new Promise(resolve => {
-        carrotImg.onload = () => resolve();
+        acornImg.onload = () => resolve();
       });
 
       //delay for loader
       setTimeout(() => {
-        carrotImg.src = data.image; 
+        acornImg.src = data.image; 
       }, 1000);
 
       // Wait until loaded
       await imgLoadPromise;
 
-      loader2.style.display = "none";
+      loader3.style.display = "none";
 
       localStorage.setItem("bananaAnswer", data.answer);
     }
 
   } catch (err) {
-    loader2.style.display = "none";
+    loader3.style.display = "none";
     console.error(err);
   }
 });
 
-btnTh4.addEventListener('click', () => {
-  EventBus.emit("NAVIGATE_THEME_4");
-});
 
-btnTh5.addEventListener('click', () => {
-  EventBus.emit("NAVIGATE_THEME_5");
-});
 
 btnBackTh1.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
@@ -694,8 +733,9 @@ playAgain2.addEventListener('click', async () => {
 
   EventBus.emit("NAVIGATE_THEME_2");
 
-  result.textContent = "Find Carrot!";
-  result.style.color = "White";
+  result2.textContent = "Find Carrot!";
+  result2.style.color = "White";
+  playAgain2.style.display = "none";
 
   const loader2 = document.getElementById("bananaLoader2");
   const carrotImg = document.getElementById("carrotImg");
@@ -736,8 +776,114 @@ playAgain2.addEventListener('click', async () => {
   }
 });
 
+//////////////////Answer buttons in acorn theme///////////////////////
+
+const answerButtonsA = document.querySelectorAll(".ansBtnA");
+const result3 = document.getElementById("result3");
+const playAgain3 = document.getElementById("playAgain3");
+
+answerButtonsA.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = parseInt(btn.textContent);
+    const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
+
+    console.log("Button clicked:", value);
+    console.log("Correct answer is",correctAnswer);
+
+    if (value === correctAnswer) {
+      result3.textContent = "You won!";
+      result3.style.color = "white";
+      result3.classList.remove("pop");
+
+      void result3.offsetWidth;
+      result3.classList.add("pop");
+
+      playAgain3.style.display = "block";
+      playAgain3.style.backgroundColor = "#E6C6B3";
+
+      console.log("Username passing by f.e:",userName.textContent);
+
+      // Increase score in DB
+      fetch("http://localhost:3000/api/update-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: userName.textContent })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          console.log("Score updated! New score:", data.updatedScore);
+          //update the UI score
+          const scoreValA = document.getElementById("scoreValA");
+          scoreValA.textContent = data.updatedScore;
+          // updateScore(data.updateScore);
+        } else {
+          console.log("Error:", data.message);
+        }
+      })
+      .catch(err => console.error(err));
 
 
+    } else {
+      result3.textContent = "Try Again!";
+      result3.style.color = "red";
+      result3.classList.remove("pop");
 
+      void result3.offsetWidth;
+      result3.classList.add("pop");
+
+      playAgain3.style.display = "none";
+    }
+  });
+});
+
+////////////////play again in acorn theme/////////////////////
+
+playAgain3.addEventListener('click', async () => {
+
+  EventBus.emit("NAVIGATE_THEME_3");
+
+  result3.textContent = "Find acorn!";
+  result3.style.color = "White";
+  playAgain3.style.display = "none";
+
+  const loader3 = document.getElementById("bananaLoader3");
+  const acornImg = document.getElementById("acornImg");
+
+  /////Show loader/////
+  loader3.style.display = "block";
+
+  try {
+    const res = await fetch("http://localhost:3000/api/game_images?type=acorn", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const img = data.image;
+      const ans = data.answer;
+
+      localStorage.setItem("bananaAnswer", ans);
+
+      const correctAnswer = localStorage.getItem("bananaAnswer");
+      // console.log("Correct answer:",correctAnswer);
+
+      acornImg.onload = () => {
+        loader3.style.display = "none";
+      };
+
+      acornImg.src = img;
+    } else {
+      loader3.style.display = "none";
+      console.error("Failed to fetch image");
+    }
+
+  } catch (err) {
+    loader3.style.display = "none";
+    errorMsgReg.textContent = "Network error. Backend not running.";
+  }
+});
 
 
