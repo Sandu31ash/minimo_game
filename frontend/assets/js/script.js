@@ -518,8 +518,6 @@ btnTh3.addEventListener('click', async () => {
 
 btnTh4.addEventListener('click', async () => {
   EventBus.emit("NAVIGATE_THEME_4");
-<<<<<<< HEAD
-=======
 
   const loader4 = document.getElementById("bananaLoader4");
   const cloverImg = document.getElementById("cloverImg");
@@ -558,9 +556,9 @@ btnTh4.addEventListener('click', async () => {
         cloverImg.onload = () => resolve();
       });
 
-      //delay for loader
+      // delay for loader
       setTimeout(() => {
-        cloverImg.src = data.image; 
+        cloverImg.src = data.image;
       }, 1000);
 
       // Wait until loaded
@@ -634,64 +632,6 @@ btnTh5.addEventListener('click', async () => {
 
   } catch (err) {
     loader5.style.display = "none";
-    console.error(err);
-  }
-
-});
->>>>>>> theme_pawpsicle
-
-  const loader4 = document.getElementById("bananaLoader4");
-  const cloverImg = document.getElementById("cloverImg");
-
-  // Get username from localStorage
-  const username = localStorage.getItem("username");
-  console.log("Fetched username:", username);
-
-  // Fetch score from database
-  fetch(`${BASE_URL}get-score/${username}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        const scoreValCL = document.getElementById("scoreValCL");
-        scoreValCL.textContent = data.score;
-        console.log("score value:", data.score);
-      } else {
-        console.log("Error fetching score:", data.message);
-        scoreValCL.textContent = 0;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      scoreValCL.textContent = 0;
-    });
-
-  loader4.style.display = "block";
-
-  try {
-    const res = await fetch("http://localhost:3000/api/game_images?type=clover");
-    const data = await res.json();
-
-    if (res.ok) {
-
-      const imgLoadPromise = new Promise(resolve => {
-        cloverImg.onload = () => resolve();
-      });
-
-      //delay for loader
-      setTimeout(() => {
-        cloverImg.src = data.image; 
-      }, 1000);
-
-      // Wait until loaded
-      await imgLoadPromise;
-
-      loader4.style.display = "none";
-
-      localStorage.setItem("bananaAnswer", data.answer);
-    }
-
-  } catch (err) {
-    loader4.style.display = "none";
     console.error(err);
   }
 
@@ -1175,9 +1115,6 @@ playAgain4.addEventListener('click', async () => {
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
 });
-<<<<<<< HEAD
-=======
-
 
 //////////////////Answer buttons in pawpsicle theme///////////////////////
 
@@ -1288,4 +1225,3 @@ playAgain5.addEventListener('click', async () => {
     errorMsgReg.textContent = "Network error. Backend not running.";
   }
 });
->>>>>>> theme_pawpsicle
