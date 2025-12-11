@@ -516,7 +516,65 @@ btnTh3.addEventListener('click', async () => {
   }
 });
 
+btnTh4.addEventListener('click', async () => {
+  EventBus.emit("NAVIGATE_THEME_4");
 
+  const loader4 = document.getElementById("bananaLoader4");
+  const cloverImg = document.getElementById("cloverImg");
+
+  // Get username from localStorage
+  const username = localStorage.getItem("username");
+  console.log("Fetched username:", username);
+
+  // Fetch score from database
+  fetch(`${BASE_URL}get-score/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const scoreValCL = document.getElementById("scoreValCL");
+        scoreValCL.textContent = data.score;
+        console.log("score value:", data.score);
+      } else {
+        console.log("Error fetching score:", data.message);
+        scoreValCL.textContent = 0;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      scoreValCL.textContent = 0;
+    });
+
+  loader4.style.display = "block";
+
+  try {
+    const res = await fetch("http://localhost:3000/api/game_images?type=clover");
+    const data = await res.json();
+
+    if (res.ok) {
+
+      const imgLoadPromise = new Promise(resolve => {
+        cloverImg.onload = () => resolve();
+      });
+
+      //delay for loader
+      setTimeout(() => {
+        cloverImg.src = data.image; 
+      }, 1000);
+
+      // Wait until loaded
+      await imgLoadPromise;
+
+      loader4.style.display = "none";
+
+      localStorage.setItem("bananaAnswer", data.answer);
+    }
+
+  } catch (err) {
+    loader4.style.display = "none";
+    console.error(err);
+  }
+
+});
 
 btnBackTh1.addEventListener('click', () => {
   EventBus.emit("NAVIGATE_THEME_MENU", usernameField.value);
@@ -887,3 +945,112 @@ playAgain3.addEventListener('click', async () => {
 });
 
 
+//////////////////Answer buttons in clover theme///////////////////////
+
+const answerButtonsCL = document.querySelectorAll(".ansBtnCL");
+const result4 = document.getElementById("result4");
+const playAgain4 = document.getElementById("playAgain4");
+
+answerButtonsCL.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = parseInt(btn.textContent);
+    const correctAnswer = parseInt(localStorage.getItem("bananaAnswer"));
+
+    console.log("Button clicked:", value);
+    console.log("Correct answer is",correctAnswer);
+
+    if (value === correctAnswer) {
+      result4.textContent = "You won!";
+      result4.style.color = "white";
+      result4.classList.remove("pop");
+
+      void result4.offsetWidth;
+      result4.classList.add("pop");
+
+      playAgain4.style.display = "block";
+      playAgain4.style.backgroundColor = "#F2FE78";
+
+      console.log("Username passing by f.e:",userName.textContent);
+
+      // Increase score in DB
+      fetch("http://localhost:3000/api/update-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: userName.textContent })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          console.log("Score updated! New score:", data.updatedScore);
+          //update the UI score
+          const scoreValCL = document.getElementById("scoreValCL");
+          scoreValCL.textContent = data.updatedScore;
+          // updateScore(data.updateScore);
+        } else {
+          console.log("Error:", data.message);
+        }
+      })
+      .catch(err => console.error(err));
+
+
+    } else {
+      result4.textContent = "Try Again!";
+      result4.style.color = "red";
+      result4.classList.remove("pop");
+
+      void result4.offsetWidth;
+      result4.classList.add("pop");
+
+      playAgain4.style.display = "none";
+    }
+  });
+});
+
+////////////////play again in clover theme/////////////////////
+
+playAgain4.addEventListener('click', async () => {
+
+  EventBus.emit("NAVIGATE_THEME_4");
+
+  result4.textContent = "Find Clover!";
+  result4.style.color = "White";
+  playAgain4.style.display = "none";
+
+  const loader4 = document.getElementById("bananaLoader4");
+  const cloverImg = document.getElementById("cloverImg");
+
+  /////Show loader/////
+  loader4.style.display = "block";
+
+  try {
+    const res = await fetch("http://localhost:3000/api/game_images?type=clover", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const img = data.image;
+      const ans = data.answer;
+
+      localStorage.setItem("bananaAnswer", ans);
+
+      const correctAnswer = localStorage.getItem("bananaAnswer");
+      // console.log("Correct answer:",correctAnswer);
+
+      cloverImg.onload = () => {
+        loader4.style.display = "none";
+      };
+
+      cloverImg.src = img;
+    } else {
+      loader4.style.display = "none";
+      console.error("Failed to fetch image");
+    }
+
+  } catch (err) {
+    loader4.style.display = "none";
+    errorMsgReg.textContent = "Network error. Backend not running.";
+  }
+});
